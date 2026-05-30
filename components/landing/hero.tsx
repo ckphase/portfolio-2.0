@@ -146,7 +146,7 @@ const fadeUp = {
     transition: {
       duration: 1,
       delay: 1.4 + i * 0.12,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 }
@@ -160,7 +160,7 @@ const statReveal = {
     transition: {
       duration: 0.8,
       delay: 2.0 + i * 0.1,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 }
