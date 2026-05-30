@@ -1,15 +1,20 @@
-import { Geist, Geist_Mono, Inter } from "next/font/google"
+import { Inter } from "next/font/google"
+import type { Metadata } from "next"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils";
+import { LenisProvider } from "@/components/landing/lenis-provider"
 
-const inter = Inter({subsets:['latin'],variable:'--font-sans'})
-
-const fontMono = Geist_Mono({
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-mono",
+  variable: "--font-sans",
+  display: "swap",
 })
+
+export const metadata: Metadata = {
+  title: "Chandanpreet Kaur — UI/UX & Digital Experiences",
+  description:
+    "Portfolio of Chandanpreet Kaur — UI/UX Designer creating premium digital experiences.",
+}
 
 export default function RootLayout({
   children,
@@ -17,13 +22,12 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning
-      className={cn("antialiased", fontMono.variable, "font-sans", inter.variable)}
-    >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+    <html lang="en" className={`${inter.variable} antialiased`}>
+      <body
+        className="grain bg-[#050505] font-sans text-white"
+        style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
+      >
+        <LenisProvider>{children}</LenisProvider>
       </body>
     </html>
   )
