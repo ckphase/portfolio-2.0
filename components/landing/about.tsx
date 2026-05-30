@@ -130,7 +130,7 @@ function TimelineEntry({
       >
         {/* Card title */}
         <motion.h4
-          className="mb-2 text-[15px] font-normal tracking-[-0.01em] text-white md:text-base"
+          className="mb-2 text-[16px] font-medium tracking-[-0.01em] text-white md:text-[17px]"
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
@@ -142,8 +142,8 @@ function TimelineEntry({
         <div
           className="relative rounded-xl border px-5 py-4 transition-all duration-500 hover:border-white/[0.08] md:px-6 md:py-5"
           style={{
-            borderColor: "rgba(255,255,255,0.04)",
-            background: "linear-gradient(135deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%)",
+            borderColor: "rgba(255,255,255,0.1)",
+            background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)",
             backdropFilter: "blur(8px)",
           }}
         >
@@ -154,8 +154,8 @@ function TimelineEntry({
             }}
           />
           <p
-            className="text-[13px] font-light leading-[1.8] md:text-[14px]"
-            style={{ color: "rgba(255,255,255,0.55)" }}
+            className="text-[14px] font-normal leading-[1.8] md:text-[15px]"
+            style={{ color: "rgba(255,255,255,0.75)" }}
           >
             {item.text}
           </p>
@@ -229,7 +229,7 @@ export function About() {
             className="block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
             style={{
               color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.035)",
+              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
             }}
           >
             Every Expert
@@ -238,7 +238,7 @@ export function About() {
             className="mt-2 block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
             style={{
               color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.035)",
+              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
             }}
           >
             Was Once
@@ -247,7 +247,7 @@ export function About() {
             className="mt-2 block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
             style={{
               color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.035)",
+              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
             }}
           >
             A Beginner
@@ -261,7 +261,7 @@ export function About() {
         <RevealText delay={0}>
           <p
             className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-            style={{ color: "rgba(255,255,255,0.4)" }}
+            style={{ color: "rgba(255,255,255,0.65)" }}
           >
             About
           </p>
@@ -272,14 +272,14 @@ export function About() {
           {/* ── Left: Sticky title ── */}
           <div className="lg:sticky lg:top-32 lg:h-fit lg:w-[40%]">
             <RevealText delay={0.1}>
-              <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+              <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
                 Built Before
               </h2>
             </RevealText>
             <RevealText delay={0.2}>
               <h2
-                className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em]"
-                style={{ color: "rgba(255,255,255,0.45)" }}
+                className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em]"
+                style={{ color: "rgba(255,255,255,0.55)" }}
               >
                 I Was Ready.
               </h2>
@@ -299,8 +299,8 @@ export function About() {
 
             <RevealText delay={0.4}>
               <p
-                className="mt-8 max-w-sm text-[14px] font-light leading-[1.9] tracking-[0.01em]"
-                style={{ color: "rgba(255,255,255,0.5)" }}
+                className="mt-8 max-w-sm text-[14px] font-normal leading-[1.9] tracking-[0.01em]"
+                style={{ color: "rgba(255,255,255,0.7)" }}
               >
                 Every year taught me something I couldn&apos;t learn from a
                 textbook. This is the path — messy, ambitious, and mine.
@@ -318,7 +318,7 @@ export function About() {
               <div className="h-[1px] w-8" style={{ background: "rgba(255,255,255,0.08)" }} />
               <span
                 className="text-[10px] font-light tracking-[0.25em] uppercase"
-                style={{ color: "rgba(255,255,255,0.3)" }}
+                style={{ color: "rgba(255,255,255,0.45)" }}
               >
                 Scroll to explore the journey
               </span>
@@ -355,14 +355,14 @@ export function About() {
 
         <div className="text-center">
           <RevealText delay={0}>
-            <p className="text-[clamp(1.5rem,3.5vw,3rem)] font-light leading-[1.3] tracking-[-0.02em] text-white">
+            <p className="text-[clamp(1.5rem,3.5vw,3rem)] font-normal leading-[1.3] tracking-[-0.02em] text-white">
               I don&apos;t just want a career.
             </p>
           </RevealText>
           <RevealText delay={0.15}>
             <p
-              className="text-[clamp(1.5rem,3.5vw,3rem)] font-light leading-[1.3] tracking-[-0.02em]"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              className="text-[clamp(1.5rem,3.5vw,3rem)] font-normal leading-[1.3] tracking-[-0.02em]"
+              style={{ color: "rgba(255,255,255,0.55)" }}
             >
               I want to build things people remember.
             </p>

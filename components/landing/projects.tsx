@@ -127,9 +127,9 @@ function ProjectCard({
         onMouseLeave={handleMouseLeave}
         className="relative overflow-hidden rounded-2xl border transition-all duration-700 hover:border-white/[0.08]"
         style={{
-          borderColor: "rgba(255,255,255,0.04)",
+          borderColor: "rgba(255,255,255,0.1)",
           background:
-            "linear-gradient(160deg, rgba(255,255,255,0.025) 0%, rgba(255,255,255,0.005) 100%)",
+            "linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
           backdropFilter: "blur(12px)",
           transformStyle: "preserve-3d",
         }}
@@ -158,7 +158,7 @@ function ProjectCard({
             {/* Large number */}
             <span
               className="text-[clamp(3rem,5vw,4.5rem)] font-extralight leading-none tabular-nums tracking-[-0.04em] transition-colors duration-700 group-hover:text-white/30"
-              style={{ color: "rgba(255,255,255,0.08)" }}
+              style={{ color: "rgba(255,255,255,0.15)" }}
             >
               {project.number}
             </span>
@@ -188,7 +188,7 @@ function ProjectCard({
               />
               <span
                 className="text-[10px] font-light tracking-[0.15em] uppercase"
-                style={{ color: "rgba(255,255,255,0.45)" }}
+                style={{ color: "rgba(255,255,255,0.6)" }}
               >
                 {project.status}
               </span>
@@ -196,14 +196,14 @@ function ProjectCard({
           </div>
 
           {/* Title */}
-          <h3 className="mb-3 text-[clamp(1.15rem,2vw,1.5rem)] font-light leading-[1.2] tracking-[-0.02em] text-white">
+          <h3 className="mb-3 text-[clamp(1.2rem,2vw,1.5rem)] font-medium leading-[1.2] tracking-[-0.02em] text-white">
             {project.title}
           </h3>
 
           {/* Description */}
           <p
-            className="mb-6 max-w-lg text-[13px] font-light leading-[1.8] md:text-[14px]"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            className="mb-6 max-w-lg text-[13px] font-normal leading-[1.8] md:text-[14px]"
+            style={{ color: "rgba(255,255,255,0.7)" }}
           >
             {project.description}
           </p>
@@ -215,8 +215,8 @@ function ProjectCard({
                 key={tag}
                 className="rounded-full border px-3 py-1 text-[10px] font-light tracking-[0.08em] uppercase transition-colors duration-500 group-hover:border-white/[0.08]"
                 style={{
-                  borderColor: "rgba(255,255,255,0.04)",
-                  color: "rgba(255,255,255,0.4)",
+                  borderColor: "rgba(255,255,255,0.1)",
+                  color: "rgba(255,255,255,0.6)",
                 }}
               >
                 {tag}
@@ -273,7 +273,7 @@ export function Projects() {
             className="text-[clamp(5rem,16vw,15rem)] font-bold uppercase leading-none tracking-[-0.03em]"
             style={{
               color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.025)",
+              WebkitTextStroke: "1.5px rgba(255,255,255,0.06)",
             }}
           >
             Currently Building&nbsp;&nbsp;·&nbsp;&nbsp;Currently Building&nbsp;&nbsp;·&nbsp;&nbsp;Currently Building
@@ -288,7 +288,7 @@ export function Projects() {
           <RevealText delay={0}>
             <p
               className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.65)" }}
             >
               Work
             </p>
@@ -297,14 +297,14 @@ export function Projects() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <RevealText delay={0.1}>
-                <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+                <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
                   Currently
                 </h2>
               </RevealText>
               <RevealText delay={0.2}>
                 <h2
                   className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em]"
-                  style={{ color: "rgba(255,255,255,0.45)" }}
+                  style={{ color: "rgba(255,255,255,0.55)" }}
                 >
                   Building.
                 </h2>
@@ -320,7 +320,7 @@ export function Projects() {
                 />
                 <span
                   className="text-[12px] font-light tracking-[0.15em] uppercase"
-                  style={{ color: "rgba(255,255,255,0.4)" }}
+                  style={{ color: "rgba(255,255,255,0.6)" }}
                 >
                   {projects.length} Active Projects
                 </span>
@@ -367,7 +367,7 @@ export function Projects() {
           />
           <span
             className="text-[10px] font-light tracking-[0.25em] uppercase"
-            style={{ color: "rgba(255,255,255,0.3)" }}
+            style={{ color: "rgba(255,255,255,0.5)" }}
           >
             More projects coming soon
           </span>

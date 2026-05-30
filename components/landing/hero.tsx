@@ -239,7 +239,7 @@ export function Hero() {
             custom={0}
             variants={fadeUp}
             className="mb-8 text-[11px] font-medium tracking-[0.35em] uppercase"
-            style={{ color: "rgba(255,255,255,0.45)" }}
+            style={{ color: "rgba(255,255,255,0.6)" }}
           >
             Portfolio 2026
           </motion.p>
@@ -251,7 +251,7 @@ export function Hero() {
             <motion.h1
               custom={0}
               variants={lineReveal}
-              className="text-[clamp(2.2rem,6.5vw,5.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white"
+              className="text-[clamp(2.2rem,6.5vw,5.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white"
             >
               UI/UX &amp; Digital Experiences
             </motion.h1>
@@ -261,8 +261,8 @@ export function Hero() {
             <motion.h2
               custom={1}
               variants={lineReveal}
-              className="mt-1 text-[clamp(2rem,6vw,5rem)] font-light italic leading-[1.1] tracking-[-0.02em]"
-              style={{ color: "rgba(255,255,255,0.5)" }}
+              className="mt-1 text-[clamp(2rem,6vw,5rem)] font-normal italic leading-[1.1] tracking-[-0.02em]"
+              style={{ color: "rgba(255,255,255,0.6)" }}
             >
               Chandanpreet Kaur
             </motion.h2>
@@ -275,8 +275,8 @@ export function Hero() {
             <motion.p
               custom={0}
               variants={fadeUp}
-              className="text-[clamp(0.85rem,1.3vw,1.05rem)] font-light leading-[1.8] tracking-[0.01em]"
-              style={{ color: "rgba(255,255,255,0.5)" }}
+              className="text-[clamp(0.9rem,1.3vw,1.1rem)] font-normal leading-[1.8] tracking-[0.01em]"
+              style={{ color: "rgba(255,255,255,0.7)" }}
             >
               Design isn&apos;t decoration.
             </motion.p>
@@ -285,8 +285,8 @@ export function Hero() {
             <motion.p
               custom={1}
               variants={fadeUp}
-              className="text-[clamp(0.85rem,1.3vw,1.05rem)] font-light leading-[1.8] tracking-[0.01em]"
-              style={{ color: "rgba(255,255,255,0.5)" }}
+              className="text-[clamp(0.9rem,1.3vw,1.1rem)] font-normal leading-[1.8] tracking-[0.01em]"
+              style={{ color: "rgba(255,255,255,0.7)" }}
             >
               It&apos;s how people remember an experience.
             </motion.p>
@@ -304,15 +304,15 @@ export function Hero() {
               variants={statReveal}
               className="group relative flex items-center gap-3 rounded-full border px-5 py-2.5 md:px-7 md:py-3 transition-colors duration-500 hover:border-white/[0.12]"
               style={{
-                borderColor: "rgba(255,255,255,0.06)",
-                background: "rgba(255,255,255,0.015)",
+                borderColor: "rgba(255,255,255,0.12)",
+                background: "rgba(255,255,255,0.04)",
                 backdropFilter: "blur(10px)",
               }}
             >
               {stat.isText ? (
                 <span
-                  className="text-[13px] font-light tracking-wide md:text-sm"
-                  style={{ color: "rgba(255,255,255,0.55)" }}
+                  className="text-[13px] font-normal tracking-wide md:text-sm"
+                  style={{ color: "rgba(255,255,255,0.7)" }}
                 >
                   Student Designer
                 </span>
@@ -333,8 +333,8 @@ export function Hero() {
                     )}
                   </span>
                   <span
-                    className="text-[11px] font-light uppercase tracking-[0.12em] md:text-xs"
-                    style={{ color: "rgba(255,255,255,0.5)" }}
+                    className="text-[11px] font-normal uppercase tracking-[0.12em] md:text-xs"
+                    style={{ color: "rgba(255,255,255,0.65)" }}
                   >
                     {stat.label}
                   </span>
@@ -364,7 +364,7 @@ export function Hero() {
             </span>
             <span
               className="text-[11px] font-light tracking-[0.1em] uppercase"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              style={{ color: "rgba(255,255,255,0.6)" }}
             >
               Available for Opportunities
             </span>
@@ -378,7 +378,7 @@ export function Hero() {
           >
             <span
               className="text-[11px] font-light tracking-[0.15em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.55)" }}
             >
               Scroll to Explore
             </span>

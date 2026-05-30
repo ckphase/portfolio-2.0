@@ -84,21 +84,21 @@ export function Contact() {
           <RevealText delay={0}>
             <p
               className="mb-8 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.65)" }}
             >
               Contact
             </p>
           </RevealText>
 
           <RevealText delay={0.1}>
-            <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+            <h2 className="text-[clamp(2.5rem,6vw,5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
               Let&apos;s Create
             </h2>
           </RevealText>
           <RevealText delay={0.2}>
             <h2
               className="text-[clamp(2.5rem,6vw,5rem)] font-light italic leading-[1.05] tracking-[-0.03em]"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              style={{ color: "rgba(255,255,255,0.55)" }}
             >
               Together.
             </h2>
@@ -106,8 +106,8 @@ export function Contact() {
 
           <RevealText delay={0.35}>
             <p
-              className="mx-auto mt-8 max-w-md text-[14px] font-light leading-[1.8]"
-              style={{ color: "rgba(255,255,255,0.5)" }}
+              className="mx-auto mt-8 max-w-md text-[15px] font-normal leading-[1.8]"
+              style={{ color: "rgba(255,255,255,0.7)" }}
             >
               Whether it&apos;s a project, an opportunity, or just a conversation
               about design — I&apos;d love to hear from you.
@@ -158,8 +158,8 @@ export function Contact() {
             style={{ borderColor: "rgba(255,255,255,0.08)" }}
           >
             <span
-              className="text-[13px] font-light tracking-[0.15em] uppercase transition-colors duration-500 group-hover:text-white"
-              style={{ color: "rgba(255,255,255,0.6)" }}
+              className="text-[13px] font-medium tracking-[0.15em] uppercase transition-colors duration-500 group-hover:text-white"
+              style={{ color: "rgba(255,255,255,0.75)" }}
             >
               Send a Message
             </span>
@@ -199,7 +199,7 @@ export function Contact() {
             </span>
             <span
               className="text-[11px] font-light tracking-[0.1em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.6)" }}
             >
               Available for Opportunities
             </span>
@@ -208,7 +208,7 @@ export function Contact() {
           {/* Copyright */}
           <motion.p
             className="text-[11px] font-light tracking-[0.05em]"
-            style={{ color: "rgba(255,255,255,0.25)" }}
+            style={{ color: "rgba(255,255,255,0.45)" }}
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
@@ -272,18 +272,18 @@ function ContactRow({
         ease: [0.22, 1, 0.36, 1],
       }}
       className="group flex items-center justify-between border-b py-5 transition-colors duration-500 hover:border-white/[0.08]"
-      style={{ borderColor: "rgba(255,255,255,0.04)" }}
+        style={{ borderColor: "rgba(255,255,255,0.08)" }}
     >
       <span
-        className="text-[11px] font-medium tracking-[0.2em] uppercase"
-        style={{ color: "rgba(255,255,255,0.35)" }}
+        className="text-[11px] font-semibold tracking-[0.2em] uppercase"
+        style={{ color: "rgba(255,255,255,0.55)" }}
       >
         {link.label}
       </span>
       <div className="flex items-center gap-3">
         <span
-          className="text-[13px] font-light transition-colors duration-500 group-hover:text-white"
-          style={{ color: "rgba(255,255,255,0.6)" }}
+          className="text-[14px] font-normal transition-colors duration-500 group-hover:text-white"
+          style={{ color: "rgba(255,255,255,0.75)" }}
         >
           {link.value}
         </span>

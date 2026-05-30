@@ -110,7 +110,7 @@ function WorkRow({
         ease: [0.22, 1, 0.36, 1],
       }}
       className="group border-b transition-colors duration-500 hover:border-white/[0.1]"
-      style={{ borderColor: "rgba(255,255,255,0.06)" }}
+      style={{ borderColor: "rgba(255,255,255,0.1)" }}
       onMouseEnter={handleEnter}
       onMouseLeave={handleLeave}
     >
@@ -119,17 +119,17 @@ function WorkRow({
         <div className="flex items-center gap-6 md:gap-10">
           <span
             className="text-[13px] tabular-nums font-light tracking-[0.1em] transition-colors duration-500 group-hover:text-white/60"
-            style={{ color: "rgba(255,255,255,0.2)" }}
+            style={{ color: "rgba(255,255,255,0.35)" }}
           >
             0{index + 1}
           </span>
           <div>
-            <h3 className="text-[clamp(1.1rem,2.2vw,1.6rem)] font-light tracking-[-0.02em] text-white transition-all duration-500 group-hover:translate-x-2">
+            <h3 className="text-[clamp(1.1rem,2.2vw,1.6rem)] font-medium tracking-[-0.02em] text-white transition-all duration-500 group-hover:translate-x-2">
               {work.title}
             </h3>
             <p
               className="mt-1 text-[12px] font-light tracking-[0.06em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.6)" }}
             >
               {work.category}
             </p>
@@ -140,13 +140,13 @@ function WorkRow({
         <div className="hidden items-center gap-8 md:flex">
           <span
             className="text-[12px] font-light tracking-[0.1em]"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+            style={{ color: "rgba(255,255,255,0.55)" }}
           >
             {work.role}
           </span>
           <span
             className="text-[13px] font-light tabular-nums tracking-[0.05em]"
-            style={{ color: "rgba(255,255,255,0.3)" }}
+            style={{ color: "rgba(255,255,255,0.5)" }}
           >
             {work.year}
           </span>
@@ -177,8 +177,8 @@ function WorkRow({
       >
         <div className="px-1 pb-7 pl-[calc(1.5rem+40px)] md:pl-[calc(2.5rem+56px)]">
           <p
-            className="max-w-xl text-[13px] font-light leading-[1.85] md:text-[14px]"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            className="max-w-xl text-[14px] font-normal leading-[1.85] md:text-[15px]"
+            style={{ color: "rgba(255,255,255,0.7)" }}
           >
             {work.description}
           </p>
@@ -213,7 +213,7 @@ export function SelectedWork() {
           <RevealText delay={0}>
             <p
               className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.65)" }}
             >
               Portfolio
             </p>
@@ -222,14 +222,14 @@ export function SelectedWork() {
           <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
             <div>
               <RevealText delay={0.1}>
-                <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+                <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
                   Selected
                 </h2>
               </RevealText>
               <RevealText delay={0.2}>
                 <h2
                   className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light italic leading-[1.05] tracking-[-0.03em]"
-                  style={{ color: "rgba(255,255,255,0.45)" }}
+                  style={{ color: "rgba(255,255,255,0.55)" }}
                 >
                   Work.
                 </h2>
@@ -239,7 +239,7 @@ export function SelectedWork() {
             <RevealText delay={0.3}>
               <p
                 className="max-w-xs pb-2 text-[13px] font-light leading-[1.7]"
-                style={{ color: "rgba(255,255,255,0.4)" }}
+                style={{ color: "rgba(255,255,255,0.65)" }}
               >
                 A curated selection of projects that shaped my craft.
               </p>

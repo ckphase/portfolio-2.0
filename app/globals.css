@@ -77,8 +77,8 @@ html, body {
   z-index: 1;
   pointer-events: none;
   background-image:
-    linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
   background-size: 60px 60px;
   mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
 }
@@ -99,7 +99,7 @@ html, body {
   top: 50%;
   left: 50%;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   transform: translate(-50%, -50%);
 }
 
@@ -129,9 +129,27 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Section divider glow */
+.section-divider {
+  position: relative;
+  height: 1px;
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto;
+  background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.12), transparent);
+}
+
+.section-divider::before {
+  content: "";
+  position: absolute;
+  inset: -20px 0;
+  background: radial-gradient(ellipse 50% 100% at 50% 50%, rgba(255, 255, 255, 0.03), transparent);
+  pointer-events: none;
+}
+
 /* Custom cursor feel */
 ::selection {
-  background: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.2);
   color: white;
 }
 

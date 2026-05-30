@@ -98,14 +98,14 @@ function SkillBar({
     <div ref={ref} className="py-3">
       <div className="mb-2 flex items-center justify-between">
         <span
-          className="text-[13px] font-light tracking-[0.02em]"
-          style={{ color: "rgba(255,255,255,0.7)" }}
+          className="text-[13px] font-normal tracking-[0.02em]"
+          style={{ color: "rgba(255,255,255,0.8)" }}
         >
           {name}
         </span>
         <motion.span
           className="text-[11px] font-light tabular-nums tracking-[0.05em]"
-          style={{ color: "rgba(255,255,255,0.35)" }}
+          style={{ color: "rgba(255,255,255,0.55)" }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: delay + 0.3 }}
@@ -115,13 +115,13 @@ function SkillBar({
       </div>
       <div
         className="relative h-[2px] overflow-hidden rounded-full"
-        style={{ background: "rgba(255,255,255,0.06)" }}
+          style={{ background: "rgba(255,255,255,0.1)" }}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{
             background:
-              "linear-gradient(to right, rgba(255,255,255,0.4), rgba(255,255,255,0.15))",
+              "linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0.25))",
           }}
           initial={{ width: "0%" }}
           animate={isInView ? { width: `${level}%` } : {}}
@@ -159,15 +159,15 @@ function SkillCategory({
       }}
       className="relative rounded-2xl border p-6 md:p-8"
       style={{
-        borderColor: "rgba(255,255,255,0.05)",
+        borderColor: "rgba(255,255,255,0.1)",
         background:
-          "linear-gradient(160deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0.005) 100%)",
+          "linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
       }}
     >
       {/* Category title */}
       <h3
-        className="mb-6 text-[11px] font-medium tracking-[0.3em] uppercase"
-        style={{ color: "rgba(255,255,255,0.45)" }}
+        className="mb-6 text-[12px] font-semibold tracking-[0.3em] uppercase"
+        style={{ color: "rgba(255,255,255,0.7)" }}
       >
         {category.title}
       </h3>
@@ -213,21 +213,21 @@ export function Skills() {
           <RevealText delay={0}>
             <p
               className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.65)" }}
             >
               Capabilities
             </p>
           </RevealText>
 
           <RevealText delay={0.1}>
-            <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+            <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
               Skills &amp;
             </h2>
           </RevealText>
           <RevealText delay={0.2}>
             <h2
               className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em]"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              style={{ color: "rgba(255,255,255,0.55)" }}
             >
               Expertise.
             </h2>
@@ -258,12 +258,12 @@ export function Skills() {
             {[...toolMarquee, ...toolMarquee].map((tool, i) => (
               <span
                 key={`${tool}-${i}`}
-                className="whitespace-nowrap text-[clamp(1rem,2vw,1.4rem)] font-light tracking-[0.02em]"
-                style={{ color: "rgba(255,255,255,0.12)" }}
+                className="whitespace-nowrap text-[clamp(1rem,2vw,1.4rem)] font-normal tracking-[0.02em]"
+                style={{ color: "rgba(255,255,255,0.25)" }}
               >
                 {tool}
                 {i < toolMarquee.length * 2 - 1 && (
-                  <span className="ml-8" style={{ color: "rgba(255,255,255,0.06)" }}>
+                  <span className="ml-8" style={{ color: "rgba(255,255,255,0.15)" }}>
                     ·
                   </span>
                 )}

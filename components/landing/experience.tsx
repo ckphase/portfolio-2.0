@@ -88,14 +88,14 @@ function ExperienceCard({
         ease: [0.22, 1, 0.36, 1],
       }}
       className="group relative border-b py-10 transition-colors duration-500 hover:border-white/[0.08] md:py-14"
-      style={{ borderColor: "rgba(255,255,255,0.05)" }}
+      style={{ borderColor: "rgba(255,255,255,0.1)" }}
     >
       <div className="flex flex-col gap-6 md:flex-row md:gap-16">
         {/* Left: Period & Location */}
         <div className="md:w-[200px] md:flex-shrink-0">
           <motion.span
             className="block text-[13px] font-light tabular-nums tracking-[0.1em]"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            style={{ color: "rgba(255,255,255,0.7)" }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.2 + index * 0.1 }}
@@ -104,7 +104,7 @@ function ExperienceCard({
           </motion.span>
           <motion.span
             className="mt-1 block text-[11px] font-light tracking-[0.08em]"
-            style={{ color: "rgba(255,255,255,0.3)" }}
+            style={{ color: "rgba(255,255,255,0.5)" }}
             initial={{ opacity: 0 }}
             animate={isInView ? { opacity: 1 } : {}}
             transition={{ duration: 0.8, delay: 0.3 + index * 0.1 }}
@@ -115,12 +115,12 @@ function ExperienceCard({
 
         {/* Right: Content */}
         <div className="flex-1">
-          <h3 className="mb-3 text-[clamp(1rem,1.8vw,1.3rem)] font-light tracking-[-0.01em] text-white transition-all duration-500 group-hover:translate-x-1">
+          <h3 className="mb-3 text-[clamp(1rem,1.8vw,1.3rem)] font-medium tracking-[-0.01em] text-white transition-all duration-500 group-hover:translate-x-1">
             {exp.title}
           </h3>
           <p
-            className="mb-5 max-w-xl text-[13px] font-light leading-[1.85] md:text-[14px]"
-            style={{ color: "rgba(255,255,255,0.5)" }}
+            className="mb-5 max-w-xl text-[14px] font-normal leading-[1.85] md:text-[15px]"
+            style={{ color: "rgba(255,255,255,0.7)" }}
           >
             {exp.description}
           </p>
@@ -132,8 +132,8 @@ function ExperienceCard({
                 key={h}
                 className="rounded-full border px-3 py-1 text-[10px] font-light tracking-[0.1em] uppercase transition-colors duration-500 group-hover:border-white/[0.08]"
                 style={{
-                  borderColor: "rgba(255,255,255,0.05)",
-                  color: "rgba(255,255,255,0.4)",
+                  borderColor: "rgba(255,255,255,0.12)",
+                  color: "rgba(255,255,255,0.6)",
                 }}
               >
                 {h}
@@ -171,21 +171,21 @@ export function Experience() {
           <RevealText delay={0}>
             <p
               className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.4)" }}
+              style={{ color: "rgba(255,255,255,0.65)" }}
             >
               Journey
             </p>
           </RevealText>
 
           <RevealText delay={0.1}>
-            <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em] text-white">
+            <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
               Experience &amp;
             </h2>
           </RevealText>
           <RevealText delay={0.2}>
             <h2
               className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light leading-[1.05] tracking-[-0.03em]"
-              style={{ color: "rgba(255,255,255,0.45)" }}
+              style={{ color: "rgba(255,255,255,0.55)" }}
             >
               Education.
             </h2>
