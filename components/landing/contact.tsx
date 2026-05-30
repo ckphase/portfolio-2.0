@@ -255,7 +255,7 @@ function ContactRow({
   link: (typeof links)[0]
   index: number
 }) {
-  const ref = useRef<HTMLDivElement>(null)
+  const ref = useRef<HTMLAnchorElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-30px" })
 
   return (
