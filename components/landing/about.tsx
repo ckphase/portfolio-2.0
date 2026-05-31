@@ -48,24 +48,55 @@ function AnimatedStat({
   return (
     <motion.div
       ref={ref}
-      className="text-center"
-      initial={{ opacity: 0, y: 20 }}
-      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      className="group relative overflow-hidden rounded-2xl px-6 py-7 text-center"
+      style={{
+        background:
+          "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+        border: "1px solid rgba(255,255,255,0.06)",
+        backdropFilter: "blur(12px)",
+      }}
+      initial={{ opacity: 0, y: 25, scale: 0.95 }}
+      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ borderColor: "rgba(125,211,252,0.15)", y: -2 }}
     >
-      <div className="flex items-baseline justify-center gap-0.5">
-        <span className="text-[clamp(2rem,4vw,3rem)] font-bold tabular-nums tracking-[-0.04em] text-white">
-          {display}
-        </span>
-        {suffix && (
-          <span className="text-[clamp(1rem,2vw,1.5rem)] font-light text-white/40">
-            {suffix}
+      {/* Accent glow on hover */}
+      <div
+        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+        style={{
+          background:
+            "radial-gradient(circle at 50% 0%, rgba(125,211,252,0.06) 0%, transparent 70%)",
+        }}
+      />
+      {/* Top accent line */}
+      <div
+        className="absolute left-1/2 top-0 h-[1px] w-12 -translate-x-1/2"
+        style={{
+          background:
+            "linear-gradient(to right, transparent, rgba(125,211,252,0.25), transparent)",
+        }}
+      />
+      <div className="relative z-10">
+        <div className="flex items-baseline justify-center gap-0.5">
+          <span className="text-[clamp(2.2rem,4.5vw,3.2rem)] font-bold tabular-nums tracking-[-0.04em] text-white">
+            {display}
           </span>
-        )}
+          {suffix && (
+            <span
+              className="text-[clamp(1.1rem,2vw,1.6rem)] font-light"
+              style={{ color: "rgba(125,211,252,0.5)" }}
+            >
+              {suffix}
+            </span>
+          )}
+        </div>
+        <span
+          className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.2em]"
+          style={{ color: "rgba(255,255,255,0.35)" }}
+        >
+          {label}
+        </span>
       </div>
-      <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.2em] text-white/35">
-        {label}
-      </span>
     </motion.div>
   )
 }
@@ -190,13 +221,7 @@ function ShowcaseCard() {
     })
   }, [])
 
-  /* Showcase images — simulated design screens */
-  const screens = [
-    { label: "Dashboard UI", color: "rgba(125,211,252,0.08)" },
-    { label: "Design System", color: "rgba(147,197,253,0.08)" },
-    { label: "Mobile App", color: "rgba(165,180,252,0.08)" },
-    { label: "Brand Identity", color: "rgba(186,230,253,0.08)" },
-  ]
+
 
   return (
     <motion.div
@@ -273,66 +298,54 @@ function ShowcaseCard() {
           </div>
         </div>
 
-        {/* Showcase content — grid of design screens */}
-        <div className="relative z-10 grid grid-cols-2 gap-3 p-4 md:p-5">
-          {screens.map((screen, i) => (
-            <motion.div
-              key={screen.label}
-              className="group relative overflow-hidden rounded-xl"
+        {/* Showcase content — video */}
+        <motion.div
+          className="relative z-10 p-4 md:p-5"
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={isInView ? { opacity: 1, scale: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        >
+          <div
+            className="relative overflow-hidden rounded-xl"
+            style={{
+              border: "1px solid rgba(255,255,255,0.06)",
+              boxShadow: "inset 0 0 40px rgba(0,0,0,0.4), 0 0 20px rgba(125,211,252,0.03)",
+            }}
+          >
+            <video
+              src="/video.mp4"
+              autoPlay
+              loop
+              muted
+              playsInline
+              className="h-full w-full object-cover"
+              style={{ aspectRatio: "16/9" }}
+            />
+            {/* Color grade overlay — matches dark theme */}
+            <div
+              className="pointer-events-none absolute inset-0"
               style={{
-                background: screen.color,
-                border: "1px solid rgba(255,255,255,0.04)",
-                aspectRatio: "4/3",
+                background: "rgba(5,10,20,0.35)",
+                mixBlendMode: "multiply",
               }}
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{
-                duration: 0.8,
-                delay: 0.5 + i * 0.1,
-                ease: [0.22, 1, 0.36, 1],
+            />
+            {/* Edge vignette */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                boxShadow: "inset 0 0 60px rgba(5,5,5,0.7), inset 0 0 120px rgba(5,5,5,0.3)",
               }}
-            >
-              {/* Simulated UI elements */}
-              <div className="flex h-full flex-col justify-between p-3 md:p-4">
-                {/* Top bar */}
-                <div className="flex items-center gap-2">
-                  <div
-                    className="h-1.5 w-8 rounded-full"
-                    style={{ background: "rgba(125,211,252,0.2)" }}
-                  />
-                  <div className="h-1.5 w-4 rounded-full bg-white/5" />
-                </div>
-
-                {/* Content lines */}
-                <div className="space-y-1.5">
-                  <div className="h-1 w-full rounded-full bg-white/[0.06]" />
-                  <div className="h-1 w-3/4 rounded-full bg-white/[0.04]" />
-                  <div className="h-1 w-1/2 rounded-full bg-white/[0.03]" />
-                </div>
-
-                {/* Bottom */}
-                <div className="flex items-center justify-between">
-                  <span className="text-[8px] font-medium uppercase tracking-[0.12em] text-white/20">
-                    {screen.label}
-                  </span>
-                  <div
-                    className="h-4 w-4 rounded-md"
-                    style={{ background: "rgba(125,211,252,0.1)" }}
-                  />
-                </div>
-              </div>
-
-              {/* Hover glow */}
-              <div
-                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-                style={{
-                  background:
-                    "radial-gradient(circle at 50% 50%, rgba(125,211,252,0.06) 0%, transparent 70%)",
-                }}
-              />
-            </motion.div>
-          ))}
-        </div>
+            />
+            {/* Blue accent tint */}
+            <div
+              className="pointer-events-none absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(135deg, rgba(125,211,252,0.06) 0%, transparent 50%, rgba(165,180,252,0.04) 100%)",
+              }}
+            />
+          </div>
+        </motion.div>
 
         {/* Bottom status bar */}
         <div
@@ -512,11 +525,12 @@ export function About() {
         </div>
 
         {/* ── METRICS ROW ── */}
-        <div className="mt-24 md:mt-32">
+        <div className="mt-24 md:mt-36">
           <motion.div
-            className="mx-auto h-[1px] max-w-3xl origin-center"
+            className="mx-auto h-[1px] max-w-4xl origin-center"
             style={{
-              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent)",
+              background:
+                "linear-gradient(to right, transparent, rgba(125,211,252,0.1), rgba(255,255,255,0.06), rgba(125,211,252,0.1), transparent)",
             }}
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
@@ -524,10 +538,10 @@ export function About() {
             transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           />
 
-          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-8 md:mt-16 md:grid-cols-4 md:gap-4">
+          <div className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-3 md:mt-16 md:grid-cols-4 md:gap-4">
             <AnimatedStat value={15} suffix="+" label="Projects Built" delay={0.1} />
             <AnimatedStat value={8.6} label="Current CGPA" delay={0.2} isDecimal />
-            <AnimatedStat value={3} label="International Offers" delay={0.3} />
+            <AnimatedStat value={3} label="Intl. Offers" delay={0.3} />
             <AnimatedStat value={100} suffix="+" label="Hours Designing" delay={0.4} />
           </div>
         </div>
