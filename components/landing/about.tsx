@@ -1,171 +1,112 @@
 "use client"
 
-import { useRef } from "react"
-import {
-  motion,
-  useScroll,
-  useTransform,
-  useInView,
-} from "framer-motion"
+import { useRef, useEffect, useState, useCallback } from "react"
+import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import gsap from "gsap"
 
-
-/* ─── Timeline Data ─── */
-const timelineItems = [
-  {
-    year: "2023",
-    title: "The Spark",
-    text: "Started exploring technology seriously.",
-  },
-  {
-    year: "2024",
-    title: "The Foundation",
-    text: "Began Computer Science diploma journey.",
-  },
-  {
-    year: "2025",
-    title: "The Craft",
-    text: "Worked on UI/UX, web projects, design systems and student leadership.",
-  },
-  {
-    year: "2026",
-    title: "The Leap",
-    text: "Received international university offers and scholarships while building products.",
-  },
-  {
-    year: "Future",
-    title: "The Vision",
-    text: "Building products, communities and experiences that matter.",
-  },
-]
-
-/* ─── Single Timeline Entry (left-aligned, clean vertical) ─── */
-function TimelineEntry({
-  item,
-  index,
-  total,
+/* ─── Animated Counter ─── */
+function AnimatedStat({
+  value,
+  suffix = "",
+  label,
+  delay = 0,
+  isDecimal = false,
 }: {
-  item: (typeof timelineItems)[0]
-  index: number
-  total: number
+  value: number
+  suffix?: string
+  label: string
+  delay?: number
+  isDecimal?: boolean
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-60px" })
-  const isLast = index === total - 1
+  const isInView = useInView(ref, { once: true, margin: "-40px" })
+  const [display, setDisplay] = useState(isDecimal ? "0.0" : "0")
+  const hasAnimated = useRef(false)
+
+  useEffect(() => {
+    if (!isInView || hasAnimated.current) return
+    hasAnimated.current = true
+
+    const dur = 2000
+    const start = performance.now() + delay * 1000
+
+    function tick() {
+      const now = performance.now()
+      if (now < start) return requestAnimationFrame(tick)
+      const p = Math.min((now - start) / dur, 1)
+      const eased = 1 - Math.pow(1 - p, 4)
+      setDisplay(
+        isDecimal
+          ? (eased * value).toFixed(1)
+          : String(Math.round(eased * value))
+      )
+      if (p < 1) requestAnimationFrame(tick)
+    }
+    requestAnimationFrame(tick)
+  }, [isInView, value, delay, isDecimal])
 
   return (
-    <div ref={ref} className="relative flex gap-6 md:gap-10">
-      {/* ── Left column: Year + Dot + Vertical line ── */}
-      <div className="relative flex flex-col items-center pt-1">
-        {/* Year label */}
-        <motion.span
-          className="mb-4 min-w-[52px] text-center font-light tabular-nums"
-          style={{
-            fontSize: "13px",
-            letterSpacing: "0.15em",
-            color: isInView ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.15)",
-            transition: "color 0.8s cubic-bezier(0.22, 1, 0.36, 1)",
-          }}
-          initial={{ opacity: 0, y: 8 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {item.year}
-        </motion.span>
-
-        {/* Dot */}
-        <motion.div
-          className="relative z-10 flex-shrink-0"
-          initial={{ scale: 0 }}
-          animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 0.5, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {/* Glow ring */}
-          <div
-            className="absolute -inset-2 rounded-full transition-opacity duration-700"
-            style={{
-              background: "radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%)",
-              opacity: isInView ? 1 : 0,
-            }}
-          />
-          {/* Outer ring */}
-          <div
-            className="relative h-3.5 w-3.5 rounded-full border transition-all duration-700"
-            style={{
-              borderColor: isInView ? "rgba(255,255,255,0.4)" : "rgba(255,255,255,0.08)",
-              background: isInView ? "rgba(255,255,255,0.06)" : "transparent",
-            }}
-          >
-            {/* Inner dot */}
-            <div
-              className="absolute inset-[3px] rounded-full transition-all duration-700"
-              style={{
-                backgroundColor: isInView ? "rgba(255,255,255,0.7)" : "rgba(255,255,255,0.1)",
-                boxShadow: isInView ? "0 0 10px rgba(255,255,255,0.25)" : "none",
-              }}
-            />
-          </div>
-        </motion.div>
-
-        {/* Vertical connector line */}
-        {!isLast && (
-          <div className="relative mt-0 w-[1px] flex-1">
-            <div className="absolute inset-0" style={{ background: "rgba(255,255,255,0.04)" }} />
-            <motion.div
-              className="absolute inset-x-0 top-0 origin-top"
-              style={{ background: "rgba(255,255,255,0.15)" }}
-              initial={{ height: "0%" }}
-              animate={isInView ? { height: "100%" } : {}}
-              transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
-            />
-          </div>
+    <motion.div
+      ref={ref}
+      className="text-center"
+      initial={{ opacity: 0, y: 20 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div className="flex items-baseline justify-center gap-0.5">
+        <span className="text-[clamp(2rem,4vw,3rem)] font-bold tabular-nums tracking-[-0.04em] text-white">
+          {display}
+        </span>
+        {suffix && (
+          <span className="text-[clamp(1rem,2vw,1.5rem)] font-light text-white/40">
+            {suffix}
+          </span>
         )}
       </div>
-
-      {/* ── Right column: Card content ── */}
-      <motion.div
-        className="group relative -mt-1 flex-1 pb-14 md:pb-20"
-        initial={{ opacity: 0, x: 40, filter: "blur(6px)" }}
-        animate={isInView ? { opacity: 1, x: 0, filter: "blur(0px)" } : {}}
-        transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {/* Card title */}
-        <motion.h4
-          className="mb-2 text-[16px] font-medium tracking-[-0.01em] text-white md:text-[17px]"
-          initial={{ opacity: 0 }}
-          animate={isInView ? { opacity: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
-        >
-          {item.title}
-        </motion.h4>
-
-        {/* Card body */}
-        <div
-          className="relative rounded-xl border px-5 py-4 transition-all duration-500 hover:border-white/[0.08] md:px-6 md:py-5"
-          style={{
-            borderColor: "rgba(255,255,255,0.1)",
-            background: "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.015) 100%)",
-            backdropFilter: "blur(8px)",
-          }}
-        >
-          <div
-            className="pointer-events-none absolute -left-px -top-px h-20 w-20 rounded-tl-xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-            style={{
-              background: "radial-gradient(circle at top left, rgba(255,255,255,0.04), transparent 70%)",
-            }}
-          />
-          <p
-            className="text-[14px] font-normal leading-[1.8] md:text-[15px]"
-            style={{ color: "rgba(255,255,255,0.75)" }}
-          >
-            {item.text}
-          </p>
-        </div>
-      </motion.div>
-    </div>
+      <span className="mt-1 block text-[11px] font-medium uppercase tracking-[0.2em] text-white/35">
+        {label}
+      </span>
+    </motion.div>
   )
 }
 
-/* ─── Section Title Reveal ─── */
+/* ─── Floating Label ─── */
+function FloatingLabel({
+  text,
+  x,
+  y,
+  delay,
+}: {
+  text: string
+  x: string
+  y: string
+  delay: number
+}) {
+  return (
+    <motion.div
+      className="absolute hidden md:block"
+      style={{ left: x, top: y }}
+      initial={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
+      whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
+      viewport={{ once: true }}
+      transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
+    >
+      <div
+        className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] backdrop-blur-md"
+        style={{
+          borderColor: "rgba(125,211,252,0.15)",
+          background: "rgba(125,211,252,0.06)",
+          color: "rgba(125,211,252,0.7)",
+          boxShadow: "0 0 20px rgba(125,211,252,0.05)",
+        }}
+      >
+        {text}
+      </div>
+    </motion.div>
+  )
+}
+
+/* ─── Reveal Text ─── */
 function RevealText({
   children,
   className = "",
@@ -176,23 +117,15 @@ function RevealText({
   delay?: number
 }) {
   const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-100px" })
+  const isInView = useInView(ref, { once: true, margin: "-60px" })
 
   return (
     <div ref={ref} className="overflow-hidden">
       <motion.div
         className={className}
         initial={{ y: "110%", opacity: 0, filter: "blur(6px)" }}
-        animate={
-          isInView
-            ? { y: "0%", opacity: 1, filter: "blur(0px)" }
-            : { y: "110%", opacity: 0, filter: "blur(6px)" }
-        }
-        transition={{
-          duration: 1.2,
-          delay,
-          ease: [0.22, 1, 0.36, 1],
-        }}
+        animate={isInView ? { y: "0%", opacity: 1, filter: "blur(0px)" } : {}}
+        transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
       >
         {children}
       </motion.div>
@@ -200,18 +133,284 @@ function RevealText({
   )
 }
 
-/* ─── About Section ─── */
+/* ─── 3D Glassmorphism Showcase Card ─── */
+function ShowcaseCard() {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
+  const wrapperRef = useRef<HTMLDivElement>(null)
+  const isInView = useInView(wrapperRef, { once: true, margin: "-80px" })
+
+  /* 3D tilt on mouse */
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!cardRef.current || !glowRef.current) return
+    const rect = cardRef.current.getBoundingClientRect()
+    const x = (e.clientX - rect.left) / rect.width - 0.5
+    const y = (e.clientY - rect.top) / rect.height - 0.5
+
+    gsap.to(cardRef.current, {
+      rotateY: x * 12,
+      rotateX: -y * 12,
+      duration: 0.6,
+      ease: "power2.out",
+    })
+
+    gsap.to(glowRef.current, {
+      x: x * 60,
+      y: y * 60,
+      duration: 0.6,
+      ease: "power2.out",
+    })
+  }, [])
+
+  const handleMouseLeave = useCallback(() => {
+    if (!cardRef.current || !glowRef.current) return
+    gsap.to(cardRef.current, {
+      rotateY: 0,
+      rotateX: 0,
+      duration: 1,
+      ease: "power3.out",
+    })
+    gsap.to(glowRef.current, {
+      x: 0,
+      y: 0,
+      duration: 1,
+      ease: "power3.out",
+    })
+  }, [])
+
+  /* Floating animation */
+  useEffect(() => {
+    if (!cardRef.current) return
+    gsap.to(cardRef.current, {
+      y: -8,
+      duration: 3,
+      repeat: -1,
+      yoyo: true,
+      ease: "sine.inOut",
+    })
+  }, [])
+
+  /* Showcase images — simulated design screens */
+  const screens = [
+    { label: "Dashboard UI", color: "rgba(125,211,252,0.08)" },
+    { label: "Design System", color: "rgba(147,197,253,0.08)" },
+    { label: "Mobile App", color: "rgba(165,180,252,0.08)" },
+    { label: "Brand Identity", color: "rgba(186,230,253,0.08)" },
+  ]
+
+  return (
+    <motion.div
+      ref={wrapperRef}
+      className="relative"
+      style={{ perspective: "1200px" }}
+      initial={{ opacity: 0, scale: 0.9, y: 40 }}
+      animate={
+        isInView
+          ? { opacity: 1, scale: 1, y: 0 }
+          : {}
+      }
+      transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+    >
+      {/* Floating labels */}
+      <FloatingLabel text="UI/UX" x="-10%" y="10%" delay={0.8} />
+      <FloatingLabel text="Frontend" x="95%" y="15%" delay={1.0} />
+      <FloatingLabel text="Design Systems" x="-5%" y="75%" delay={1.2} />
+      <FloatingLabel text="Prototyping" x="90%" y="80%" delay={1.4} />
+
+      {/* Ambient glow behind card */}
+      <div
+        className="absolute inset-0 -z-10 blur-3xl"
+        style={{
+          background:
+            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(125,211,252,0.06) 0%, transparent 70%)",
+        }}
+      />
+
+      {/* Main card */}
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative overflow-hidden rounded-3xl"
+        style={{
+          transformStyle: "preserve-3d",
+          border: "1px solid rgba(255,255,255,0.08)",
+          background:
+            "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.2) 100%)",
+          backdropFilter: "blur(20px)",
+          boxShadow:
+            "0 25px 60px rgba(0,0,0,0.4), 0 0 40px rgba(125,211,252,0.04), inset 0 1px 0 rgba(255,255,255,0.06)",
+        }}
+      >
+        {/* Dynamic lighting glow */}
+        <div
+          ref={glowRef}
+          className="pointer-events-none absolute -inset-10 z-0"
+          style={{
+            background:
+              "radial-gradient(circle 300px, rgba(125,211,252,0.08) 0%, transparent 70%)",
+          }}
+        />
+
+        {/* Top bezel bar */}
+        <div
+          className="relative z-10 flex items-center gap-2 border-b px-5 py-3"
+          style={{ borderColor: "rgba(255,255,255,0.06)" }}
+        >
+          <div className="flex gap-1.5">
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+          </div>
+          <div
+            className="mx-auto rounded-md px-8 py-0.5 text-[9px] font-medium tracking-[0.15em] uppercase"
+            style={{
+              background: "rgba(255,255,255,0.04)",
+              color: "rgba(255,255,255,0.3)",
+            }}
+          >
+            chandanpreet.design
+          </div>
+        </div>
+
+        {/* Showcase content — grid of design screens */}
+        <div className="relative z-10 grid grid-cols-2 gap-3 p-4 md:p-5">
+          {screens.map((screen, i) => (
+            <motion.div
+              key={screen.label}
+              className="group relative overflow-hidden rounded-xl"
+              style={{
+                background: screen.color,
+                border: "1px solid rgba(255,255,255,0.04)",
+                aspectRatio: "4/3",
+              }}
+              initial={{ opacity: 0, scale: 0.9 }}
+              animate={isInView ? { opacity: 1, scale: 1 } : {}}
+              transition={{
+                duration: 0.8,
+                delay: 0.5 + i * 0.1,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+            >
+              {/* Simulated UI elements */}
+              <div className="flex h-full flex-col justify-between p-3 md:p-4">
+                {/* Top bar */}
+                <div className="flex items-center gap-2">
+                  <div
+                    className="h-1.5 w-8 rounded-full"
+                    style={{ background: "rgba(125,211,252,0.2)" }}
+                  />
+                  <div className="h-1.5 w-4 rounded-full bg-white/5" />
+                </div>
+
+                {/* Content lines */}
+                <div className="space-y-1.5">
+                  <div className="h-1 w-full rounded-full bg-white/[0.06]" />
+                  <div className="h-1 w-3/4 rounded-full bg-white/[0.04]" />
+                  <div className="h-1 w-1/2 rounded-full bg-white/[0.03]" />
+                </div>
+
+                {/* Bottom */}
+                <div className="flex items-center justify-between">
+                  <span className="text-[8px] font-medium uppercase tracking-[0.12em] text-white/20">
+                    {screen.label}
+                  </span>
+                  <div
+                    className="h-4 w-4 rounded-md"
+                    style={{ background: "rgba(125,211,252,0.1)" }}
+                  />
+                </div>
+              </div>
+
+              {/* Hover glow */}
+              <div
+                className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-500 group-hover:opacity-100"
+                style={{
+                  background:
+                    "radial-gradient(circle at 50% 50%, rgba(125,211,252,0.06) 0%, transparent 70%)",
+                }}
+              />
+            </motion.div>
+          ))}
+        </div>
+
+        {/* Bottom status bar */}
+        <div
+          className="relative z-10 flex items-center justify-between border-t px-5 py-2.5"
+          style={{ borderColor: "rgba(255,255,255,0.04)" }}
+        >
+          <div className="flex items-center gap-2">
+            <div
+              className="h-1.5 w-1.5 rounded-full"
+              style={{
+                background: "rgba(125,211,252,0.8)",
+                boxShadow: "0 0 6px rgba(125,211,252,0.4)",
+              }}
+            />
+            <span className="text-[9px] font-medium text-white/30">
+              Live workspace
+            </span>
+          </div>
+          <span className="text-[9px] font-medium tabular-nums text-white/20">
+            4 projects · 2026
+          </span>
+        </div>
+      </div>
+
+      {/* Reflection underneath */}
+      <div
+        className="pointer-events-none mx-auto mt-1 hidden md:block"
+        style={{
+          width: "85%",
+          height: "60px",
+          background:
+            "linear-gradient(to bottom, rgba(255,255,255,0.02), transparent)",
+          borderRadius: "0 0 24px 24px",
+          filter: "blur(8px)",
+          maskImage: "linear-gradient(to bottom, black, transparent)",
+          WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
+        }}
+      />
+    </motion.div>
+  )
+}
+
+/* ─── Particle Effect ─── */
+function Particles() {
+  return (
+    <div className="pointer-events-none absolute inset-0 overflow-hidden">
+      {Array.from({ length: 6 }).map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute h-1 w-1 rounded-full"
+          style={{
+            left: `${15 + i * 15}%`,
+            top: `${20 + (i % 3) * 25}%`,
+            background: `rgba(125,211,252,${0.15 + (i % 3) * 0.1})`,
+            boxShadow: `0 0 8px rgba(125,211,252,${0.1 + (i % 3) * 0.05})`,
+          }}
+          animate={{
+            y: [0, -20, 0],
+            opacity: [0.3, 0.8, 0.3],
+            scale: [1, 1.3, 1],
+          }}
+          transition={{
+            duration: 4 + i * 0.5,
+            repeat: Infinity,
+            delay: i * 0.8,
+            ease: "easeInOut",
+          }}
+        />
+      ))}
+    </div>
+  )
+}
+
+/* ═══════════════════════════════════════════════
+   ─── ABOUT SECTION ───
+   ═══════════════════════════════════════════════ */
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
-
-  /* Parallax for background text */
-  const { scrollYProgress: sectionProgress } = useScroll({
-    target: sectionRef,
-    offset: ["start end", "end start"],
-  })
-
-  const bgTextY = useTransform(sectionProgress, [0, 1], ["5%", "-10%"])
-  const bgTextOpacity = useTransform(sectionProgress, [0, 0.15, 0.85, 1], [0, 1, 1, 0])
 
   return (
     <section
@@ -219,67 +418,47 @@ export function About() {
       className="relative overflow-hidden"
       style={{ background: "#050505" }}
     >
-      {/* ── Full-width background text (visible, spanning full section) ── */}
-      <motion.div
-        className="pointer-events-none absolute inset-0 flex items-center justify-center select-none overflow-hidden"
-        style={{ y: bgTextY, opacity: bgTextOpacity }}
-      >
-        <div className="whitespace-nowrap text-center">
-          <span
-            className="block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
-            style={{
-              color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
-            }}
-          >
-            Every Expert
-          </span>
-          <span
-            className="mt-2 block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
-            style={{
-              color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
-            }}
-          >
-            Was Once
-          </span>
-          <span
-            className="mt-2 block text-[clamp(4rem,14vw,13rem)] font-bold uppercase leading-[0.85] tracking-[-0.03em]"
-            style={{
-              color: "transparent",
-              WebkitTextStroke: "1.5px rgba(255,255,255,0.07)",
-            }}
-          >
-            A Beginner
-          </span>
-        </div>
-      </motion.div>
+      {/* Subtle grid texture */}
+      <div
+        className="pointer-events-none absolute inset-0"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
+          backgroundSize: "80px 80px",
+          maskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent)",
+          WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent)",
+        }}
+      />
 
-      {/* ── Content ── */}
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 pt-32 md:px-12 md:pt-48">
-        {/* Section label */}
-        <RevealText delay={0}>
-          <p
-            className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-            style={{ color: "rgba(255,255,255,0.65)" }}
-          >
-            About
-          </p>
-        </RevealText>
+      {/* Particles */}
+      <Particles />
 
-        {/* Split layout: Title left, Timeline right */}
-        <div className="flex flex-col gap-16 lg:flex-row lg:gap-20">
-          {/* ── Left: Sticky title ── */}
-          <div className="lg:sticky lg:top-32 lg:h-fit lg:w-[40%]">
+      {/* Content */}
+      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-32 md:px-12 md:py-48">
+        {/* Two-column layout */}
+        <div className="flex flex-col gap-16 lg:flex-row lg:items-center lg:gap-20">
+          {/* ── LEFT SIDE (40%) ── */}
+          <div className="lg:w-[40%]">
+            {/* Section label */}
+            <RevealText delay={0}>
+              <p
+                className="mb-8 text-[11px] font-semibold tracking-[0.35em] uppercase"
+                style={{ color: "rgba(125,211,252,0.6)" }}
+              >
+                About
+              </p>
+            </RevealText>
+
+            {/* Heading */}
             <RevealText delay={0.1}>
-              <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
+              <h2 className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
                 Built Before
               </h2>
             </RevealText>
             <RevealText delay={0.2}>
               <h2
-                className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em]"
-                style={{ color: "rgba(255,255,255,0.55)" }}
+                className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em]"
+                style={{ color: "rgba(255,255,255,0.35)" }}
               >
                 I Was Ready.
               </h2>
@@ -287,9 +466,9 @@ export function About() {
 
             {/* Decorative line */}
             <motion.div
-              className="mt-10 h-[1px] max-w-[200px] origin-left"
+              className="mt-8 h-[1px] max-w-[120px] origin-left"
               style={{
-                background: "linear-gradient(to right, rgba(255,255,255,0.12), transparent)",
+                background: "linear-gradient(to right, rgba(125,211,252,0.3), transparent)",
               }}
               initial={{ scaleX: 0 }}
               whileInView={{ scaleX: 1 }}
@@ -297,87 +476,60 @@ export function About() {
               transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
             />
 
+            {/* Paragraph */}
             <RevealText delay={0.4}>
-              <p
-                className="mt-8 max-w-sm text-[14px] font-normal leading-[1.9] tracking-[0.01em]"
-                style={{ color: "rgba(255,255,255,0.7)" }}
-              >
-                Every year taught me something I couldn&apos;t learn from a
-                textbook. This is the path — messy, ambitious, and mine.
+              <p className="mt-8 max-w-sm text-[15px] font-normal leading-[1.85] text-white/60">
+                Every project taught me something no classroom could.
+                From development and design to leadership and problem solving,
+                I learned by creating, failing, improving, and building again.
               </p>
             </RevealText>
 
-            {/* Small hint */}
+            {/* Signature */}
             <motion.div
-              className="mt-12 flex items-center gap-3"
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              className="mt-8 flex items-center gap-3"
+              initial={{ opacity: 0, x: -10 }}
+              whileInView={{ opacity: 1, x: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.7 }}
+              transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
             >
-              <div className="h-[1px] w-8" style={{ background: "rgba(255,255,255,0.08)" }} />
+              <div
+                className="h-[1px] w-6"
+                style={{ background: "rgba(255,255,255,0.15)" }}
+              />
               <span
-                className="text-[10px] font-light tracking-[0.25em] uppercase"
-                style={{ color: "rgba(255,255,255,0.45)" }}
+                className="text-[13px] italic text-white/30"
               >
-                Scroll to explore the journey
+                Chandanpreet Kaur
               </span>
             </motion.div>
           </div>
 
-          {/* ── Right: Clean vertical timeline ── */}
+          {/* ── RIGHT SIDE (60%) ── */}
           <div className="relative lg:w-[60%]">
-            {timelineItems.map((item, i) => (
-              <TimelineEntry
-                key={item.year}
-                item={item}
-                index={i}
-                total={timelineItems.length}
-              />
-            ))}
+            <ShowcaseCard />
           </div>
         </div>
-      </div>
 
-      {/* ── Bottom: Giant closing statement ── */}
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 pb-32 pt-8 md:px-12 md:pb-48 md:pt-16">
-        {/* Divider */}
-        <motion.div
-          className="mx-auto mb-20 h-[1px] max-w-xs origin-center md:mb-28"
-          style={{
-            background: "linear-gradient(to right, transparent, rgba(255,255,255,0.08), transparent)",
-          }}
-          initial={{ scaleX: 0 }}
-          whileInView={{ scaleX: 1 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-        />
-
-        <div className="text-center">
-          <RevealText delay={0}>
-            <p className="text-[clamp(1.5rem,3.5vw,3rem)] font-normal leading-[1.3] tracking-[-0.02em] text-white">
-              I don&apos;t just want a career.
-            </p>
-          </RevealText>
-          <RevealText delay={0.15}>
-            <p
-              className="text-[clamp(1.5rem,3.5vw,3rem)] font-normal leading-[1.3] tracking-[-0.02em]"
-              style={{ color: "rgba(255,255,255,0.55)" }}
-            >
-              I want to build things people remember.
-            </p>
-          </RevealText>
-        </div>
-
-        {/* Decorative circle */}
-        <div className="pointer-events-none absolute bottom-0 left-1/2 -translate-x-1/2">
-          <div
-            className="h-[400px] w-[400px] rounded-full"
+        {/* ── METRICS ROW ── */}
+        <div className="mt-24 md:mt-32">
+          <motion.div
+            className="mx-auto h-[1px] max-w-3xl origin-center"
             style={{
-              border: "1px solid rgba(255,255,255,0.02)",
-              background: "radial-gradient(circle, rgba(255,255,255,0.008) 0%, transparent 70%)",
+              background: "linear-gradient(to right, transparent, rgba(255,255,255,0.06), transparent)",
             }}
+            initial={{ scaleX: 0 }}
+            whileInView={{ scaleX: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
           />
+
+          <div className="mx-auto mt-12 grid max-w-3xl grid-cols-2 gap-8 md:mt-16 md:grid-cols-4 md:gap-4">
+            <AnimatedStat value={15} suffix="+" label="Projects Built" delay={0.1} />
+            <AnimatedStat value={8.6} label="Current CGPA" delay={0.2} isDecimal />
+            <AnimatedStat value={3} label="International Offers" delay={0.3} />
+            <AnimatedStat value={100} suffix="+" label="Hours Designing" delay={0.4} />
+          </div>
         </div>
       </div>
     </section>

@@ -132,7 +132,7 @@ const lineReveal = {
     transition: {
       duration: 1.2,
       delay: 0.6 + i * 0.15,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 }
@@ -173,7 +173,7 @@ const bottomReveal = {
     transition: {
       duration: 1,
       delay,
-      ease: [0.22, 1, 0.36, 1],
+      ease: [0.22, 1, 0.36, 1] as const,
     },
   }),
 }

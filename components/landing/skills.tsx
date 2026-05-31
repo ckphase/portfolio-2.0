@@ -7,6 +7,8 @@ import { motion, useInView, useScroll, useTransform } from "framer-motion"
 const skillCategories = [
   {
     title: "Design",
+    icon: "🎨",
+    accent: "125,211,252",
     skills: [
       { name: "UI/UX Design", level: 90 },
       { name: "Design Systems", level: 85 },
@@ -17,6 +19,8 @@ const skillCategories = [
   },
   {
     title: "Development",
+    icon: "⚡",
+    accent: "147,197,253",
     skills: [
       { name: "HTML / CSS", level: 92 },
       { name: "JavaScript / TypeScript", level: 80 },
@@ -27,6 +31,8 @@ const skillCategories = [
   },
   {
     title: "Tools & Workflow",
+    icon: "🛠️",
+    accent: "165,180,252",
     skills: [
       { name: "Figma", level: 92 },
       { name: "Adobe Creative Suite", level: 80 },
@@ -86,26 +92,25 @@ function SkillBar({
   name,
   level,
   delay,
+  accent,
 }: {
   name: string
   level: number
   delay: number
+  accent: string
 }) {
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-40px" })
 
   return (
     <div ref={ref} className="py-3">
-      <div className="mb-2 flex items-center justify-between">
-        <span
-          className="text-[13px] font-normal tracking-[0.02em]"
-          style={{ color: "rgba(255,255,255,0.8)" }}
-        >
+      <div className="mb-2.5 flex items-center justify-between">
+        <span className="text-[13px] font-medium text-white/90">
           {name}
         </span>
         <motion.span
-          className="text-[11px] font-light tabular-nums tracking-[0.05em]"
-          style={{ color: "rgba(255,255,255,0.55)" }}
+          className="text-[11px] font-semibold tabular-nums"
+          style={{ color: `rgba(${accent},0.8)` }}
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 0.6, delay: delay + 0.3 }}
@@ -114,14 +119,14 @@ function SkillBar({
         </motion.span>
       </div>
       <div
-        className="relative h-[2px] overflow-hidden rounded-full"
-          style={{ background: "rgba(255,255,255,0.1)" }}
+        className="relative h-[6px] overflow-hidden rounded-full"
+        style={{ background: "rgba(255,255,255,0.06)" }}
       >
         <motion.div
           className="absolute inset-y-0 left-0 rounded-full"
           style={{
-            background:
-              "linear-gradient(to right, rgba(255,255,255,0.6), rgba(255,255,255,0.25))",
+            background: `linear-gradient(to right, rgba(${accent},1), rgba(${accent},0.3))`,
+            boxShadow: `0 0 12px rgba(${accent},0.2)`,
           }}
           initial={{ width: "0%" }}
           animate={isInView ? { width: `${level}%` } : {}}
@@ -157,24 +162,38 @@ function SkillCategory({
         delay: 0.1 + index * 0.15,
         ease: [0.22, 1, 0.36, 1],
       }}
-      className="relative rounded-2xl border p-6 md:p-8"
+      className="relative overflow-hidden rounded-2xl border p-6 md:p-8"
       style={{
-        borderColor: "rgba(255,255,255,0.1)",
+        borderColor: `rgba(${category.accent},0.1)`,
         background:
-          "linear-gradient(160deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
+          `linear-gradient(160deg, rgba(${category.accent},0.04) 0%, rgba(0,0,0,0.3) 100%)`,
       }}
     >
-      {/* Category title */}
-      <h3
-        className="mb-6 text-[12px] font-semibold tracking-[0.3em] uppercase"
-        style={{ color: "rgba(255,255,255,0.7)" }}
-      >
-        {category.title}
-      </h3>
+      {/* Top accent line */}
+      <div
+        className="absolute inset-x-0 top-0 h-[2px]"
+        style={{ background: `linear-gradient(to right, rgba(${category.accent},0.4), transparent)` }}
+      />
+
+      {/* Category icon + title */}
+      <div className="mb-6 flex items-center gap-3">
+        <span
+          className="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
+          style={{ background: `rgba(${category.accent},0.1)` }}
+        >
+          {category.icon}
+        </span>
+        <h3
+          className="text-[13px] font-bold tracking-[0.2em] uppercase"
+          style={{ color: `rgba(${category.accent},1)` }}
+        >
+          {category.title}
+        </h3>
+      </div>
 
       <div
-        className="mb-6 h-[1px]"
-        style={{ background: "rgba(255,255,255,0.06)" }}
+        className="mb-5 h-[1px]"
+        style={{ background: `rgba(${category.accent},0.1)` }}
       />
 
       {/* Skills */}
@@ -183,6 +202,7 @@ function SkillCategory({
           key={skill.name}
           name={skill.name}
           level={skill.level}
+          accent={category.accent}
           delay={0.2 + index * 0.1 + i * 0.06}
         />
       ))}

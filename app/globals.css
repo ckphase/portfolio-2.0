@@ -129,6 +129,12 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+/* Hide scrollbars on horizontal scroll sections */
+.hide-scrollbar::-webkit-scrollbar,
+[style*="scrollbar-width: none"]::-webkit-scrollbar {
+  display: none;
+}
+
 /* Section divider glow */
 .section-divider {
   position: relative;

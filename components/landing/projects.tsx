@@ -13,6 +13,8 @@ const projects = [
       "End-to-end asset tracking and management system for a solar energy company based in Dubai. Real-time monitoring, maintenance scheduling, and performance analytics.",
     tags: ["UI/UX Design", "Dashboard", "Enterprise"],
     status: "In Progress",
+    icon: "☀️",
+    accent: "125,211,252",
   },
   {
     number: "02",
@@ -21,6 +23,8 @@ const projects = [
       "A custom booking system plugin for a sports complex — court reservations, membership management, and automated scheduling with a seamless user experience.",
     tags: ["Plugin Development", "Booking UX", "System Design"],
     status: "In Progress",
+    icon: "🏟️",
+    accent: "147,197,253",
   },
   {
     number: "03",
@@ -29,6 +33,8 @@ const projects = [
       "Exploring the intersection of sound, visuals and digital art. Building tools and experiences that merge creativity with technology.",
     tags: ["Creative Direction", "Audio-Visual", "Experiments"],
     status: "Ongoing",
+    icon: "🎵",
+    accent: "165,180,252",
   },
   {
     number: "04",
@@ -37,6 +43,8 @@ const projects = [
       "Preparing for the next chapter — international university transition, building new networks, and continuing to create across borders.",
     tags: ["Personal Growth", "Global", "2026–2027"],
     status: "Upcoming",
+    icon: "🌍",
+    accent: "186,230,253",
   },
 ]
 
@@ -125,70 +133,71 @@ function ProjectCard({
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative overflow-hidden rounded-2xl border transition-all duration-700 hover:border-white/[0.08]"
+        className="relative overflow-hidden rounded-2xl border transition-all duration-700 hover:border-white/[0.12]"
         style={{
-          borderColor: "rgba(255,255,255,0.1)",
+          borderColor: `rgba(${project.accent},0.1)`,
           background:
-            "linear-gradient(160deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.015) 100%)",
+            `linear-gradient(160deg, rgba(${project.accent},0.04) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.3) 100%)`,
           backdropFilter: "blur(12px)",
           transformStyle: "preserve-3d",
         }}
       >
         {/* Top gradient glow on hover */}
         <div
-          className="pointer-events-none absolute inset-x-0 top-0 h-32 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+          className="pointer-events-none absolute inset-x-0 top-0 h-40 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
           style={{
             background:
-              "linear-gradient(to bottom, rgba(255,255,255,0.02), transparent)",
+              `linear-gradient(to bottom, rgba(${project.accent},0.06), transparent)`,
           }}
         />
 
-        {/* Corner accent */}
+        {/* Top accent gradient bar */}
         <div
-          className="pointer-events-none absolute -right-px -top-px h-24 w-24 opacity-0 transition-opacity duration-700 group-hover:opacity-100"
+          className="h-[2px] w-full transition-opacity duration-700 group-hover:opacity-100"
           style={{
-            background:
-              "radial-gradient(circle at top right, rgba(255,255,255,0.04), transparent 70%)",
+            background: `linear-gradient(to right, rgba(${project.accent},1), transparent)`,
+            opacity: 0.4,
           }}
         />
 
         <div className="relative p-6 md:p-8">
-          {/* Top row: Number + Status */}
-          <div className="mb-6 flex items-start justify-between">
-            {/* Large number */}
-            <span
-              className="text-[clamp(3rem,5vw,4.5rem)] font-extralight leading-none tabular-nums tracking-[-0.04em] transition-colors duration-700 group-hover:text-white/30"
-              style={{ color: "rgba(255,255,255,0.15)" }}
-            >
-              {project.number}
-            </span>
+          {/* Top row: Icon+Number + Status */}
+          <div className="mb-5 flex items-start justify-between">
+            <div className="flex items-center gap-4">
+              {/* Icon */}
+              <span
+                className="flex h-12 w-12 items-center justify-center rounded-xl text-xl"
+                style={{ background: `rgba(${project.accent},0.1)` }}
+              >
+                {project.icon}
+              </span>
+              {/* Number */}
+              <span
+                className="text-[2.5rem] font-bold leading-none tabular-nums tracking-[-0.04em]"
+                style={{ color: `rgba(${project.accent},0.2)` }}
+              >
+                {project.number}
+              </span>
+            </div>
 
             {/* Status badge */}
             <div
-              className="mt-2 flex items-center gap-2 rounded-full border px-3 py-1"
+              className="flex items-center gap-2 rounded-full px-3 py-1.5"
               style={{
-                borderColor: "rgba(255,255,255,0.06)",
-                background: "rgba(255,255,255,0.02)",
+                background: `rgba(${project.accent},0.08)`,
+                border: `1px solid rgba(${project.accent},0.15)`,
               }}
             >
               <div
                 className="h-1.5 w-1.5 rounded-full"
                 style={{
-                  backgroundColor:
-                    project.status === "In Progress"
-                      ? "rgba(255,255,255,0.6)"
-                      : project.status === "Ongoing"
-                        ? "rgba(255,255,255,0.4)"
-                        : "rgba(255,255,255,0.2)",
-                  boxShadow:
-                    project.status === "In Progress"
-                      ? "0 0 8px rgba(255,255,255,0.2)"
-                      : "none",
+                  backgroundColor: `rgba(${project.accent},1)`,
+                  boxShadow: `0 0 8px rgba(${project.accent},0.4)`,
                 }}
               />
               <span
-                className="text-[10px] font-light tracking-[0.15em] uppercase"
-                style={{ color: "rgba(255,255,255,0.6)" }}
+                className="text-[10px] font-semibold tracking-[0.12em] uppercase"
+                style={{ color: `rgba(${project.accent},0.8)` }}
               >
                 {project.status}
               </span>
@@ -196,15 +205,12 @@ function ProjectCard({
           </div>
 
           {/* Title */}
-          <h3 className="mb-3 text-[clamp(1.2rem,2vw,1.5rem)] font-medium leading-[1.2] tracking-[-0.02em] text-white">
+          <h3 className="mb-3 text-[clamp(1.2rem,2vw,1.5rem)] font-bold leading-[1.2] tracking-[-0.02em] text-white">
             {project.title}
           </h3>
 
           {/* Description */}
-          <p
-            className="mb-6 max-w-lg text-[13px] font-normal leading-[1.8] md:text-[14px]"
-            style={{ color: "rgba(255,255,255,0.7)" }}
-          >
+          <p className="mb-6 max-w-lg text-[14px] font-normal leading-[1.8] text-white/70 md:text-[15px]">
             {project.description}
           </p>
 
@@ -213,32 +219,17 @@ function ProjectCard({
             {project.tags.map((tag) => (
               <span
                 key={tag}
-                className="rounded-full border px-3 py-1 text-[10px] font-light tracking-[0.08em] uppercase transition-colors duration-500 group-hover:border-white/[0.08]"
+                className="rounded-full px-3 py-1 text-[10px] font-semibold tracking-[0.08em] uppercase"
                 style={{
-                  borderColor: "rgba(255,255,255,0.1)",
-                  color: "rgba(255,255,255,0.6)",
+                  background: `rgba(${project.accent},0.07)`,
+                  border: `1px solid rgba(${project.accent},0.12)`,
+                  color: `rgba(${project.accent},0.75)`,
                 }}
               >
                 {tag}
               </span>
             ))}
           </div>
-
-          {/* Bottom line accent */}
-          <motion.div
-            className="absolute bottom-0 left-0 right-0 h-[1px] origin-left"
-            style={{
-              background:
-                "linear-gradient(to right, rgba(255,255,255,0.06), transparent 60%)",
-            }}
-            initial={{ scaleX: 0 }}
-            animate={isInView ? { scaleX: 1 } : {}}
-            transition={{
-              duration: 1.2,
-              delay: 0.4 + index * 0.1,
-              ease: [0.22, 1, 0.36, 1],
-            }}
-          />
         </div>
       </div>
     </motion.div>
