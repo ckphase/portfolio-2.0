@@ -1,14 +1,14 @@
-import { Hero } from "@/components/landing/hero"
-import { SelectedWork } from "@/components/landing/selected-work"
-import { Process } from "@/components/landing/process"
-import { Marquee } from "@/components/landing/marquee"
-import { Testimonials } from "@/components/landing/testimonials"
-import { Contact } from "@/components/landing/contact"
+import { ExperiencePage } from "@/components/experience/experience-page"
+
+export const metadata = {
+  title: "Experience — Chandanpreet Kaur",
+  description: "Explore my design journey, experience timeline, tools and expertise.",
+}
 
 export default function Page() {
   return (
-    <main className="relative">
-      {/* Persistent grid overlay across entire page */}
+    <main className="relative min-h-screen" style={{ background: "#050505" }}>
+      {/* Persistent grid overlay */}
       <div
         className="pointer-events-none fixed inset-0 z-[1]"
         style={{
@@ -19,12 +19,7 @@ export default function Page() {
           WebkitMaskImage: "radial-gradient(ellipse 80% 70% at 50% 30%, black 20%, transparent)",
         }}
       />
-      <Hero />
-      <SelectedWork />
-      <Process />
-      <Marquee />
-      <Testimonials />
-      <Contact />
+      <ExperiencePage />
     </main>
   )
 }

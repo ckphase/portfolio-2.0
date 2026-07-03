@@ -51,6 +51,7 @@
 
 html {
   background: #050505;
+  scroll-behavior: auto;
 }
 
 html, body {
@@ -99,7 +100,7 @@ html, body {
   top: 50%;
   left: 50%;
   border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(139, 92, 246, 0.08);
   transform: translate(-50%, -50%);
 }
 
@@ -151,6 +152,12 @@ html, body {
   inset: -20px 0;
   background: radial-gradient(ellipse 50% 100% at 50% 50%, rgba(255, 255, 255, 0.03), transparent);
   pointer-events: none;
+}
+
+/* Marquee scroll animation */
+@keyframes marquee-scroll {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
 }
 
 /* Custom cursor feel */

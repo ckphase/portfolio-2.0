@@ -1,195 +1,132 @@
 "use client"
 
 import { useRef, useCallback } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { motion, useInView } from "framer-motion"
 import gsap from "gsap"
 
-/* ─── Work Data ─── */
+/* ─── Data ─── */
 const works = [
-  {
-    title: "Solar Asset Dashboard",
-    category: "UI/UX Design · Dashboard",
-    description:
-      "A comprehensive monitoring interface for solar energy infrastructure — real-time performance metrics, predictive maintenance alerts, and fleet-wide analytics for operations teams in Dubai.",
-    year: "2026",
-    role: "Lead Designer",
-  },
-  {
-    title: "Sports Booking Platform",
-    category: "Product Design · Plugin",
-    description:
-      "Full booking experience for a multi-facility sports complex — court scheduling, membership tiers, payment flows, and admin tools built as a modular plugin system.",
-    year: "2025–26",
-    role: "UI/UX Designer",
-  },
-  {
-    title: "Design System",
-    category: "Systems Design · Components",
-    description:
-      "A scalable component library with tokens, accessibility patterns, and documentation — built to maintain consistency across multiple product verticals.",
-    year: "2025",
-    role: "Design Engineer",
-  },
-  {
-    title: "Student Leadership Portal",
-    category: "Web Design · Community",
-    description:
-      "Digital platform for student organizations — event coordination, resource sharing, and community engagement tools designed for scale.",
-    year: "2025",
-    role: "Designer & Developer",
-  },
+  { num: "01", title: "Rhythm", category: "Music App Experience", color: "139,92,246" },
+  { num: "02", title: "Brewed", category: "Brand Identity & Packaging", color: "168,85,247" },
+  { num: "03", title: "FinDash", category: "Finance Dashboard", color: "124,58,237" },
 ]
 
-/* ─── Reveal ─── */
-function RevealText({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-}) {
+/* ─── Project Card ─── */
+function ProjectCard({ work, index }: { work: (typeof works)[0]; index: number }) {
+  const cardRef = useRef<HTMLDivElement>(null)
+  const glowRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
   const isInView = useInView(ref, { once: true, margin: "-80px" })
 
-  return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div
-        className={className}
-        initial={{ y: "110%", opacity: 0, filter: "blur(6px)" }}
-        animate={isInView ? { y: "0%", opacity: 1, filter: "blur(0px)" } : {}}
-        transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {children}
-      </motion.div>
-    </div>
+  const handleMouseMove = useCallback(
+    (e: React.MouseEvent) => {
+      if (!cardRef.current || !glowRef.current) return
+      const rect = cardRef.current.getBoundingClientRect()
+      const x = e.clientX - rect.left
+      const y = e.clientY - rect.top
+      gsap.to(glowRef.current, { x, y, duration: 0.4, ease: "power2.out" })
+      gsap.to(cardRef.current, {
+        rotateY: ((x / rect.width) - 0.5) * 6,
+        rotateX: -((y / rect.height) - 0.5) * 6,
+        duration: 0.4,
+        ease: "power2.out",
+      })
+    },
+    []
   )
-}
 
-/* ─── Work Row (expandable list item) ─── */
-function WorkRow({
-  work,
-  index,
-}: {
-  work: (typeof works)[0]
-  index: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-40px" })
-  const contentRef = useRef<HTMLDivElement>(null)
-
-  const handleEnter = useCallback(() => {
-    if (!contentRef.current) return
-    gsap.to(contentRef.current, {
-      height: "auto",
-      opacity: 1,
-      duration: 0.6,
-      ease: "power3.out",
-    })
-  }, [])
-
-  const handleLeave = useCallback(() => {
-    if (!contentRef.current) return
-    gsap.to(contentRef.current, {
-      height: 0,
-      opacity: 0,
-      duration: 0.4,
-      ease: "power3.inOut",
-    })
+  const handleMouseLeave = useCallback(() => {
+    if (!cardRef.current) return
+    gsap.to(cardRef.current, { rotateY: 0, rotateX: 0, duration: 0.6, ease: "power3.out" })
   }, [])
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 50 }}
       animate={isInView ? { opacity: 1, y: 0 } : {}}
-      transition={{
-        duration: 0.9,
-        delay: 0.05 + index * 0.08,
-        ease: [0.22, 1, 0.36, 1],
-      }}
-      className="group border-b transition-colors duration-500 hover:border-white/[0.1]"
-      style={{ borderColor: "rgba(255,255,255,0.1)" }}
-      onMouseEnter={handleEnter}
-      onMouseLeave={handleLeave}
+      transition={{ duration: 0.9, delay: 0.15 + index * 0.12, ease: [0.22, 1, 0.36, 1] }}
+      className="group"
+      style={{ perspective: "800px" }}
     >
-      <div className="flex cursor-default items-center justify-between px-1 py-7 md:py-9">
-        {/* Left: Number + Title */}
-        <div className="flex items-center gap-6 md:gap-10">
-          <span
-            className="text-[13px] tabular-nums font-light tracking-[0.1em] transition-colors duration-500 group-hover:text-white/60"
-            style={{ color: "rgba(255,255,255,0.35)" }}
+      <div
+        ref={cardRef}
+        onMouseMove={handleMouseMove}
+        onMouseLeave={handleMouseLeave}
+        className="relative cursor-pointer overflow-hidden rounded-2xl"
+        style={{ transformStyle: "preserve-3d" }}
+      >
+        {/* Image area */}
+        <div
+          className="relative aspect-[4/3] overflow-hidden"
+          style={{
+            background: `linear-gradient(135deg, rgba(${work.color},0.15) 0%, rgba(${work.color},0.05) 50%, rgba(0,0,0,0.4) 100%)`,
+            border: "1px solid rgba(255,255,255,0.08)",
+          }}
+        >
+          {/* Glow follower */}
+          <div
+            ref={glowRef}
+            className="pointer-events-none absolute -translate-x-1/2 -translate-y-1/2 h-40 w-40 rounded-full opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+            style={{
+              background: `radial-gradient(circle, rgba(${work.color},0.25) 0%, transparent 70%)`,
+            }}
+          />
+
+          {/* Number badge */}
+          <div
+            className="absolute left-4 top-4 z-10 flex h-8 w-8 items-center justify-center rounded-lg text-xs font-bold"
+            style={{
+              background: `rgba(${work.color},0.2)`,
+              color: `rgba(${work.color},1)`,
+              border: `1px solid rgba(${work.color},0.3)`,
+              backdropFilter: "blur(8px)",
+            }}
           >
-            0{index + 1}
-          </span>
+            {work.num}
+          </div>
+
+          {/* Placeholder content */}
+          <div className="absolute inset-0 flex items-center justify-center">
+            <div
+              className="h-32 w-48 rounded-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+              style={{
+                background: `linear-gradient(135deg, rgba(${work.color},0.3), rgba(${work.color},0.1))`,
+                boxShadow: `0 0 60px rgba(${work.color},0.15)`,
+              }}
+            />
+          </div>
+
+          {/* Arrow icon */}
+          <motion.div
+            className="absolute bottom-4 right-4 z-10 flex h-10 w-10 items-center justify-center rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+            style={{
+              background: "rgba(255,255,255,0.1)",
+              backdropFilter: "blur(10px)",
+              border: "1px solid rgba(255,255,255,0.15)",
+            }}
+          >
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2">
+              <path d="M7 17L17 7M17 7H7M17 7v10" />
+            </svg>
+          </motion.div>
+
+          {/* Hover overlay */}
+          <div
+            className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+            style={{
+              background: `linear-gradient(to top, rgba(${work.color},0.12), transparent 60%)`,
+            }}
+          />
+        </div>
+
+        {/* Card info */}
+        <div className="mt-4 flex items-start justify-between">
           <div>
-            <h3 className="text-[clamp(1.1rem,2.2vw,1.6rem)] font-medium tracking-[-0.02em] text-white transition-all duration-500 group-hover:translate-x-2">
+            <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
               {work.title}
             </h3>
-            <p
-              className="mt-1 text-[12px] font-light tracking-[0.06em] uppercase"
-              style={{ color: "rgba(255,255,255,0.6)" }}
-            >
-              {work.category}
-            </p>
-          </div>
-        </div>
-
-        {/* Right: Year + Role */}
-        <div className="hidden items-center gap-8 md:flex">
-          <span
-            className="text-[12px] font-light tracking-[0.1em]"
-            style={{ color: "rgba(255,255,255,0.55)" }}
-          >
-            {work.role}
-          </span>
-          <span
-            className="text-[13px] font-light tabular-nums tracking-[0.05em]"
-            style={{ color: "rgba(255,255,255,0.5)" }}
-          >
-            {work.year}
-          </span>
-
-          {/* Arrow */}
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border opacity-0 transition-all duration-500 group-hover:opacity-100 group-hover:translate-x-1"
-            style={{ borderColor: "rgba(255,255,255,0.1)" }}
-          >
-            <svg
-              width="14"
-              height="14"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="rgba(255,255,255,0.5)"
-              strokeWidth="1.5"
-            >
-              <path d="M7 17L17 7M17 7H7M17 7V17" />
-            </svg>
-          </div>
-        </div>
-      </div>
-
-      {/* Expandable description */}
-      <div
-        ref={contentRef}
-        className="overflow-hidden"
-        style={{ height: 0, opacity: 0 }}
-      >
-        <div className="px-1 pb-7 pl-[calc(1.5rem+40px)] md:pl-[calc(2.5rem+56px)]">
-          <p
-            className="max-w-xl text-[14px] font-normal leading-[1.85] md:text-[15px]"
-            style={{ color: "rgba(255,255,255,0.7)" }}
-          >
-            {work.description}
-          </p>
-          <div className="mt-3 flex gap-2 md:hidden">
-            <span className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.35)" }}>
-              {work.role}
-            </span>
-            <span style={{ color: "rgba(255,255,255,0.15)" }}>·</span>
-            <span className="text-[11px] font-light" style={{ color: "rgba(255,255,255,0.3)" }}>
-              {work.year}
-            </span>
+            <p className="mt-1 text-sm text-white/50">{work.category}</p>
           </div>
         </div>
       </div>
@@ -200,69 +137,84 @@ function WorkRow({
 /* ─── Selected Work Section ─── */
 export function SelectedWork() {
   const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden"
+      id="work"
+      className="relative overflow-hidden py-16 md:py-24"
       style={{ background: "#050505" }}
     >
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-32 md:px-12 md:py-48">
-        {/* Header */}
-        <div className="mb-16 md:mb-24">
-          <RevealText delay={0}>
-            <p
-              className="mb-6 text-[11px] font-medium tracking-[0.35em] uppercase"
-              style={{ color: "rgba(255,255,255,0.65)" }}
+      {/* Ambient glow */}
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 -translate-x-1/2 h-[500px] w-[800px]"
+        style={{
+          background: "radial-gradient(ellipse, rgba(139,92,246,0.04), transparent 70%)",
+        }}
+      />
+      {/* Flowing mesh gradient */}
+      <div
+        className="pointer-events-none absolute -bottom-40 left-0 right-0 h-80"
+        style={{
+          background: "linear-gradient(to bottom, transparent, rgba(139,92,246,0.015), transparent)",
+        }}
+      />
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+        {/* Header row */}
+        <div className="mb-12 grid gap-10 lg:grid-cols-[1fr_2fr]">
+          {/* Left - Title */}
+          <div>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+              className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em]"
+              style={{ color: "rgba(139,92,246,0.7)" }}
             >
-              Portfolio
-            </p>
-          </RevealText>
+              Work
+            </motion.p>
 
-          <div className="flex flex-col gap-6 md:flex-row md:items-end md:justify-between">
-            <div>
-              <RevealText delay={0.1}>
-                <h2 className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white">
-                  Selected
-                </h2>
-              </RevealText>
-              <RevealText delay={0.2}>
-                <h2
-                  className="text-[clamp(2.5rem,5.5vw,4.5rem)] font-light italic leading-[1.05] tracking-[-0.03em]"
-                  style={{ color: "rgba(255,255,255,0.55)" }}
-                >
-                  Work.
-                </h2>
-              </RevealText>
-            </div>
+            <motion.h2
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="text-4xl font-bold text-white md:text-5xl"
+            >
+              Selected Work
+            </motion.h2>
 
-            <RevealText delay={0.3}>
-              <p
-                className="max-w-xs pb-2 text-[13px] font-light leading-[1.7]"
-                style={{ color: "rgba(255,255,255,0.65)" }}
-              >
-                A curated selection of projects that shaped my craft.
-              </p>
-            </RevealText>
+            <motion.p
+              initial={{ opacity: 0, y: 15 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
+              className="mt-5 max-w-xs text-[15px] leading-relaxed text-white/55"
+            >
+              A selection of projects that blend research, strategy and visual design to solve real user problems.
+            </motion.p>
+
+            <motion.a
+              href="/projects"
+              initial={{ opacity: 0, y: 10 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }}
+              className="group mt-8 inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04]"
+              style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
+            >
+              View All Projects
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
+                <path d="M7 17L17 7M17 7H7M17 7v10" />
+              </svg>
+            </motion.a>
           </div>
 
-          <motion.div
-            className="mt-10 h-[1px] origin-left"
-            style={{
-              background: "linear-gradient(to right, rgba(255,255,255,0.1), transparent 60%)",
-            }}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.4, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
-          />
-        </div>
-
-        {/* Work list */}
-        <div>
-          {works.map((work, i) => (
-            <WorkRow key={work.title} work={work} index={i} />
-          ))}
+          {/* Right - Cards */}
+          <div className="grid gap-6 sm:grid-cols-3">
+            {works.map((work, i) => (
+              <ProjectCard key={work.num} work={work} index={i} />
+            ))}
+          </div>
         </div>
       </div>
     </section>

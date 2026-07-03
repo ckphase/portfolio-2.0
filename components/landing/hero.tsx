@@ -180,10 +180,10 @@ const bottomReveal = {
 
 /* ─── Stats Data ─── */
 const stats = [
-  { value: 15, suffix: "+", label: "Projects" },
-  { value: 8.6, suffix: "", label: "CGPA", isDecimal: true },
-  { value: 3, suffix: "", label: "International Offers" },
-  { value: 0, suffix: "", label: "Student Designer", isText: true },
+  { value: 25, suffix: "+", label: "Projects Delivered" },
+  { value: 10, suffix: "+", label: "Shopify Stores" },
+  { value: 8, suffix: "+", label: "WordPress Sites" },
+  { value: 15, suffix: "+", label: "Coded Websites" },
 ]
 
 /* ─── Hero Component ─── */
@@ -223,7 +223,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "radial-gradient(ellipse 50% 40% at 50% 45%, rgba(255,255,255,0.015) 0%, transparent 70%)",
+            "radial-gradient(ellipse 50% 40% at 50% 45%, rgba(139,92,246,0.04) 0%, transparent 70%)",
         }}
       />
 
@@ -239,7 +239,7 @@ export function Hero() {
             custom={0}
             variants={fadeUp}
             className="mb-8 text-[11px] font-medium tracking-[0.35em] uppercase"
-            style={{ color: "rgba(255,255,255,0.6)" }}
+            style={{ color: "rgba(139,92,246,0.7)" }}
           >
             Portfolio 2026
           </motion.p>
@@ -262,7 +262,7 @@ export function Hero() {
               custom={1}
               variants={lineReveal}
               className="mt-1 text-[clamp(2rem,6vw,5rem)] font-normal italic leading-[1.1] tracking-[-0.02em]"
-              style={{ color: "rgba(255,255,255,0.6)" }}
+              style={{ color: "rgba(139,92,246,0.6)" }}
             >
               Chandanpreet Kaur
             </motion.h2>
@@ -304,42 +304,24 @@ export function Hero() {
               variants={statReveal}
               className="group relative flex items-center gap-3 rounded-full border px-5 py-2.5 md:px-7 md:py-3 transition-colors duration-500 hover:border-white/[0.12]"
               style={{
-                borderColor: "rgba(255,255,255,0.12)",
-                background: "rgba(255,255,255,0.04)",
+                borderColor: "rgba(139,92,246,0.15)",
+                background: "rgba(139,92,246,0.04)",
                 backdropFilter: "blur(10px)",
               }}
             >
-              {stat.isText ? (
-                <span
-                  className="text-[13px] font-normal tracking-wide md:text-sm"
-                  style={{ color: "rgba(255,255,255,0.7)" }}
-                >
-                  Student Designer
-                </span>
-              ) : (
-                <>
-                  <span className="text-base font-light text-white md:text-lg tabular-nums">
-                    {stat.isDecimal ? (
-                      <DecimalCounter
-                        target={stat.value}
-                        delay={2.0 + i * 0.1}
-                      />
-                    ) : (
-                      <AnimatedCounter
-                        target={stat.value}
-                        suffix={stat.suffix}
-                        delay={2.0 + i * 0.1}
-                      />
-                    )}
-                  </span>
-                  <span
-                    className="text-[11px] font-normal uppercase tracking-[0.12em] md:text-xs"
-                    style={{ color: "rgba(255,255,255,0.65)" }}
-                  >
-                    {stat.label}
-                  </span>
-                </>
-              )}
+              <span className="text-base font-light text-white md:text-lg tabular-nums">
+                <AnimatedCounter
+                  target={stat.value}
+                  suffix={stat.suffix}
+                  delay={2.0 + i * 0.1}
+                />
+              </span>
+              <span
+                className="text-[11px] font-normal uppercase tracking-[0.12em] md:text-xs"
+                style={{ color: "rgba(255,255,255,0.65)" }}
+              >
+                {stat.label}
+              </span>
             </motion.div>
           ))}
         </motion.div>
@@ -355,11 +337,11 @@ export function Hero() {
             <span className="relative flex h-2 w-2">
               <span
                 className="status-dot absolute inline-flex h-full w-full rounded-full"
-                style={{ backgroundColor: "rgba(255,255,255,0.4)" }}
+                style={{ backgroundColor: "rgba(139,92,246,0.4)" }}
               />
               <span
                 className="relative inline-flex h-2 w-2 rounded-full"
-                style={{ backgroundColor: "rgba(255,255,255,0.7)" }}
+                style={{ backgroundColor: "rgba(139,92,246,0.7)" }}
               />
             </span>
             <span
@@ -376,21 +358,27 @@ export function Hero() {
             variants={bottomReveal}
             className="hidden items-center gap-3 md:flex"
           >
-            <span
-              className="text-[11px] font-light tracking-[0.15em] uppercase"
-              style={{ color: "rgba(255,255,255,0.55)" }}
+            <a
+              href="#about"
+              className="flex items-center gap-3"
+              style={{
+                color: "rgba(255,255,255,0.55)",
+                textDecoration: "none",
+              }}
             >
-              Scroll to Explore
-            </span>
-            <div className="scroll-indicator flex flex-col items-center">
-              <div
-                className="h-8 w-[1px]"
-                style={{
-                  background:
-                    "linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05))",
-                }}
-              />
-            </div>
+              <span className="text-[11px] font-light tracking-[0.15em] uppercase">
+                Jump to About
+              </span>
+              <div className="scroll-indicator flex flex-col items-center">
+                <div
+                  className="h-8 w-[1px]"
+                  style={{
+                    background:
+                      "linear-gradient(to bottom, rgba(255,255,255,0.2), rgba(255,255,255,0.05))",
+                  }}
+                />
+              </div>
+            </a>
           </motion.div>
         </div>
       </motion.div>

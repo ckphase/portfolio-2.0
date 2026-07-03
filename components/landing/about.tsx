@@ -1,548 +1,141 @@
 "use client"
 
-import { useRef, useEffect, useState, useCallback } from "react"
-import { motion, useInView, useScroll, useTransform } from "framer-motion"
+import { useRef, useCallback } from "react"
+import { motion, useInView } from "framer-motion"
 import gsap from "gsap"
 
-/* ─── Animated Counter ─── */
-function AnimatedStat({
-  value,
-  suffix = "",
-  label,
-  delay = 0,
-  isDecimal = false,
-}: {
-  value: number
-  suffix?: string
-  label: string
-  delay?: number
-  isDecimal?: boolean
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-40px" })
-  const [display, setDisplay] = useState(isDecimal ? "0.0" : "0")
-  const hasAnimated = useRef(false)
+/* ─── Principles ─── */
+const principles = [
+  {
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <circle cx="12" cy="12" r="10" />
+        <path d="M12 6v6l4 2" />
+      </svg>
+    ),
+    title: "User-Centered",
+    description: "Designing with empathy and research at the core.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <rect x="3" y="3" width="18" height="18" rx="2" />
+        <path d="M3 9h18M9 21V9" />
+      </svg>
+    ),
+    title: "Detail-Oriented",
+    description: "Obsessed with hierarchy, spacing and clarity.",
+  },
+  {
+    icon: (
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+        <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" />
+      </svg>
+    ),
+    title: "Impact-Driven",
+    description: "Creating solutions that deliver real value.",
+  },
+]
 
-  useEffect(() => {
-    if (!isInView || hasAnimated.current) return
-    hasAnimated.current = true
-
-    const dur = 2000
-    const start = performance.now() + delay * 1000
-
-    function tick() {
-      const now = performance.now()
-      if (now < start) return requestAnimationFrame(tick)
-      const p = Math.min((now - start) / dur, 1)
-      const eased = 1 - Math.pow(1 - p, 4)
-      setDisplay(
-        isDecimal
-          ? (eased * value).toFixed(1)
-          : String(Math.round(eased * value))
-      )
-      if (p < 1) requestAnimationFrame(tick)
-    }
-    requestAnimationFrame(tick)
-  }, [isInView, value, delay, isDecimal])
-
-  return (
-    <motion.div
-      ref={ref}
-      className="group relative overflow-hidden rounded-2xl px-6 py-7 text-center"
-      style={{
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%)",
-        border: "1px solid rgba(255,255,255,0.06)",
-        backdropFilter: "blur(12px)",
-      }}
-      initial={{ opacity: 0, y: 25, scale: 0.95 }}
-      animate={isInView ? { opacity: 1, y: 0, scale: 1 } : {}}
-      transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
-      whileHover={{ borderColor: "rgba(125,211,252,0.15)", y: -2 }}
-    >
-      {/* Accent glow on hover */}
-      <div
-        className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500 group-hover:opacity-100"
-        style={{
-          background:
-            "radial-gradient(circle at 50% 0%, rgba(125,211,252,0.06) 0%, transparent 70%)",
-        }}
-      />
-      {/* Top accent line */}
-      <div
-        className="absolute left-1/2 top-0 h-[1px] w-12 -translate-x-1/2"
-        style={{
-          background:
-            "linear-gradient(to right, transparent, rgba(125,211,252,0.25), transparent)",
-        }}
-      />
-      <div className="relative z-10">
-        <div className="flex items-baseline justify-center gap-0.5">
-          <span className="text-[clamp(2.2rem,4.5vw,3.2rem)] font-bold tabular-nums tracking-[-0.04em] text-white">
-            {display}
-          </span>
-          {suffix && (
-            <span
-              className="text-[clamp(1.1rem,2vw,1.6rem)] font-light"
-              style={{ color: "rgba(125,211,252,0.5)" }}
-            >
-              {suffix}
-            </span>
-          )}
-        </div>
-        <span
-          className="mt-2 block text-[10px] font-semibold uppercase tracking-[0.2em]"
-          style={{ color: "rgba(255,255,255,0.35)" }}
-        >
-          {label}
-        </span>
-      </div>
-    </motion.div>
-  )
-}
-
-/* ─── Floating Label ─── */
-function FloatingLabel({
-  text,
-  x,
-  y,
-  delay,
-}: {
-  text: string
-  x: string
-  y: string
-  delay: number
-}) {
-  return (
-    <motion.div
-      className="absolute hidden md:block"
-      style={{ left: x, top: y }}
-      initial={{ opacity: 0, scale: 0.8, filter: "blur(4px)" }}
-      whileInView={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
-      viewport={{ once: true }}
-      transition={{ duration: 1, delay, ease: [0.22, 1, 0.36, 1] }}
-    >
-      <div
-        className="rounded-full border px-3 py-1.5 text-[10px] font-semibold uppercase tracking-[0.15em] backdrop-blur-md"
-        style={{
-          borderColor: "rgba(125,211,252,0.15)",
-          background: "rgba(125,211,252,0.06)",
-          color: "rgba(125,211,252,0.7)",
-          boxShadow: "0 0 20px rgba(125,211,252,0.05)",
-        }}
-      >
-        {text}
-      </div>
-    </motion.div>
-  )
-}
-
-/* ─── Reveal Text ─── */
-function RevealText({
-  children,
-  className = "",
-  delay = 0,
-}: {
-  children: React.ReactNode
-  className?: string
-  delay?: number
-}) {
-  const ref = useRef<HTMLDivElement>(null)
-  const isInView = useInView(ref, { once: true, margin: "-60px" })
-
-  return (
-    <div ref={ref} className="overflow-hidden">
-      <motion.div
-        className={className}
-        initial={{ y: "110%", opacity: 0, filter: "blur(6px)" }}
-        animate={isInView ? { y: "0%", opacity: 1, filter: "blur(0px)" } : {}}
-        transition={{ duration: 1.2, delay, ease: [0.22, 1, 0.36, 1] }}
-      >
-        {children}
-      </motion.div>
-    </div>
-  )
-}
-
-/* ─── 3D Glassmorphism Showcase Card ─── */
-function ShowcaseCard() {
+/* ─── Photo Card with 3D tilt ─── */
+function PhotoCard() {
   const cardRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(wrapperRef, { once: true, margin: "-80px" })
 
-  /* 3D tilt on mouse */
   const handleMouseMove = useCallback((e: React.MouseEvent) => {
     if (!cardRef.current || !glowRef.current) return
     const rect = cardRef.current.getBoundingClientRect()
     const x = (e.clientX - rect.left) / rect.width - 0.5
     const y = (e.clientY - rect.top) / rect.height - 0.5
-
-    gsap.to(cardRef.current, {
-      rotateY: x * 12,
-      rotateX: -y * 12,
-      duration: 0.6,
-      ease: "power2.out",
-    })
-
-    gsap.to(glowRef.current, {
-      x: x * 60,
-      y: y * 60,
-      duration: 0.6,
-      ease: "power2.out",
-    })
+    gsap.to(cardRef.current, { rotateY: x * 8, rotateX: -y * 8, duration: 0.5, ease: "power2.out" })
+    gsap.to(glowRef.current, { x: x * 40, y: y * 40, duration: 0.5, ease: "power2.out" })
   }, [])
 
   const handleMouseLeave = useCallback(() => {
     if (!cardRef.current || !glowRef.current) return
-    gsap.to(cardRef.current, {
-      rotateY: 0,
-      rotateX: 0,
-      duration: 1,
-      ease: "power3.out",
-    })
-    gsap.to(glowRef.current, {
-      x: 0,
-      y: 0,
-      duration: 1,
-      ease: "power3.out",
-    })
+    gsap.to(cardRef.current, { rotateY: 0, rotateX: 0, duration: 0.8, ease: "power3.out" })
+    gsap.to(glowRef.current, { x: 0, y: 0, duration: 0.8, ease: "power3.out" })
   }, [])
-
-  /* Floating animation */
-  useEffect(() => {
-    if (!cardRef.current) return
-    gsap.to(cardRef.current, {
-      y: -8,
-      duration: 3,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    })
-  }, [])
-
-
 
   return (
     <motion.div
       ref={wrapperRef}
-      className="relative"
-      style={{ perspective: "1200px" }}
-      initial={{ opacity: 0, scale: 0.9, y: 40 }}
-      animate={
-        isInView
-          ? { opacity: 1, scale: 1, y: 0 }
-          : {}
-      }
-      transition={{ duration: 1.2, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
+      initial={{ opacity: 0, x: -40 }}
+      animate={isInView ? { opacity: 1, x: 0 } : {}}
+      transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
+      style={{ perspective: "1000px" }}
     >
-      {/* Floating labels */}
-      <FloatingLabel text="UI/UX" x="-10%" y="10%" delay={0.8} />
-      <FloatingLabel text="Frontend" x="95%" y="15%" delay={1.0} />
-      <FloatingLabel text="Design Systems" x="-5%" y="75%" delay={1.2} />
-      <FloatingLabel text="Prototyping" x="90%" y="80%" delay={1.4} />
-
-      {/* Ambient glow behind card */}
-      <div
-        className="absolute inset-0 -z-10 blur-3xl"
-        style={{
-          background:
-            "radial-gradient(ellipse 60% 50% at 50% 50%, rgba(125,211,252,0.06) 0%, transparent 70%)",
-        }}
-      />
-
-      {/* Main card */}
       <div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
-        className="relative overflow-hidden rounded-3xl"
+        className="relative h-[360px] w-full overflow-hidden rounded-3xl md:h-[420px]"
         style={{
           transformStyle: "preserve-3d",
-          border: "1px solid rgba(255,255,255,0.08)",
-          background:
-            "linear-gradient(135deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) 50%, rgba(0,0,0,0.2) 100%)",
-          backdropFilter: "blur(20px)",
-          boxShadow:
-            "0 25px 60px rgba(0,0,0,0.4), 0 0 40px rgba(125,211,252,0.04), inset 0 1px 0 rgba(255,255,255,0.06)",
+          border: "1px solid rgba(139,92,246,0.15)",
+          background: "linear-gradient(135deg, rgba(139,92,246,0.08), rgba(0,0,0,0.4))",
+          boxShadow: "0 25px 80px rgba(139,92,246,0.08), inset 0 1px 0 rgba(255,255,255,0.05)",
         }}
       >
-        {/* Dynamic lighting glow */}
         <div
           ref={glowRef}
-          className="pointer-events-none absolute -inset-10 z-0"
-          style={{
-            background:
-              "radial-gradient(circle 300px, rgba(125,211,252,0.08) 0%, transparent 70%)",
-          }}
+          className="pointer-events-none absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 h-60 w-60 rounded-full"
+          style={{ background: "radial-gradient(circle, rgba(139,92,246,0.15), transparent 70%)" }}
         />
-
-        {/* Top bezel bar */}
-        <div
-          className="relative z-10 flex items-center gap-2 border-b px-5 py-3"
-          style={{ borderColor: "rgba(255,255,255,0.06)" }}
-        >
-          <div className="flex gap-1.5">
-            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-            <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          </div>
-          <div
-            className="mx-auto rounded-md px-8 py-0.5 text-[9px] font-medium tracking-[0.15em] uppercase"
-            style={{
-              background: "rgba(255,255,255,0.04)",
-              color: "rgba(255,255,255,0.3)",
-            }}
-          >
-            chandanpreet.design
-          </div>
-        </div>
-
-        {/* Showcase content — video */}
-        <motion.div
-          className="relative z-10 p-4 md:p-5"
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={isInView ? { opacity: 1, scale: 1 } : {}}
-          transition={{ duration: 0.8, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <div
-            className="relative overflow-hidden rounded-xl"
-            style={{
-              border: "1px solid rgba(255,255,255,0.06)",
-              boxShadow: "inset 0 0 40px rgba(0,0,0,0.4), 0 0 20px rgba(125,211,252,0.03)",
-            }}
-          >
-            <video
-              src="/video.mp4"
-              autoPlay
-              loop
-              muted
-              playsInline
-              className="h-full w-full object-cover"
-              style={{ aspectRatio: "16/9" }}
-            />
-            {/* Color grade overlay — matches dark theme */}
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background: "rgba(5,10,20,0.35)",
-                mixBlendMode: "multiply",
-              }}
-            />
-            {/* Edge vignette */}
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                boxShadow: "inset 0 0 60px rgba(5,5,5,0.7), inset 0 0 120px rgba(5,5,5,0.3)",
-              }}
-            />
-            {/* Blue accent tint */}
-            <div
-              className="pointer-events-none absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(125,211,252,0.06) 0%, transparent 50%, rgba(165,180,252,0.04) 100%)",
-              }}
-            />
-          </div>
-        </motion.div>
-
-        {/* Bottom status bar */}
-        <div
-          className="relative z-10 flex items-center justify-between border-t px-5 py-2.5"
-          style={{ borderColor: "rgba(255,255,255,0.04)" }}
-        >
-          <div className="flex items-center gap-2">
-            <div
-              className="h-1.5 w-1.5 rounded-full"
-              style={{
-                background: "rgba(125,211,252,0.8)",
-                boxShadow: "0 0 6px rgba(125,211,252,0.4)",
-              }}
-            />
-            <span className="text-[9px] font-medium text-white/30">
-              Live workspace
-            </span>
-          </div>
-          <span className="text-[9px] font-medium tabular-nums text-white/20">
-            4 projects · 2026
-          </span>
+        <video
+          src="/video.mp4"
+          autoPlay
+          loop
+          muted
+          playsInline
+          className="absolute inset-0 h-full w-full object-cover"
+          style={{ filter: "brightness(0.85) saturate(0.9)", opacity: 0.9 }}
+        />
+        <div className="absolute inset-0" style={{ background: "linear-gradient(to top, rgba(5,5,5,0.6) 0%, transparent 40%)" }} />
+        <div className="absolute bottom-6 left-6 z-10">
+          <p className="text-lg italic" style={{ color: "rgba(139,92,246,0.6)", fontFamily: "serif" }}>Chandanpreet</p>
         </div>
       </div>
-
-      {/* Reflection underneath */}
-      <div
-        className="pointer-events-none mx-auto mt-1 hidden md:block"
-        style={{
-          width: "85%",
-          height: "60px",
-          background:
-            "linear-gradient(to bottom, rgba(255,255,255,0.02), transparent)",
-          borderRadius: "0 0 24px 24px",
-          filter: "blur(8px)",
-          maskImage: "linear-gradient(to bottom, black, transparent)",
-          WebkitMaskImage: "linear-gradient(to bottom, black, transparent)",
-        }}
-      />
     </motion.div>
   )
 }
 
-/* ─── Particle Effect ─── */
-function Particles() {
-  return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden">
-      {Array.from({ length: 6 }).map((_, i) => (
-        <motion.div
-          key={i}
-          className="absolute h-1 w-1 rounded-full"
-          style={{
-            left: `${15 + i * 15}%`,
-            top: `${20 + (i % 3) * 25}%`,
-            background: `rgba(125,211,252,${0.15 + (i % 3) * 0.1})`,
-            boxShadow: `0 0 8px rgba(125,211,252,${0.1 + (i % 3) * 0.05})`,
-          }}
-          animate={{
-            y: [0, -20, 0],
-            opacity: [0.3, 0.8, 0.3],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{
-            duration: 4 + i * 0.5,
-            repeat: Infinity,
-            delay: i * 0.8,
-            ease: "easeInOut",
-          }}
-        />
-      ))}
-    </div>
-  )
-}
-
-/* ═══════════════════════════════════════════════
-   ─── ABOUT SECTION ───
-   ═══════════════════════════════════════════════ */
+/* ─── About Section ─── */
 export function About() {
   const sectionRef = useRef<HTMLElement>(null)
+  const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
   return (
-    <section
-      ref={sectionRef}
-      className="relative overflow-hidden"
-      style={{ background: "#050505" }}
-    >
-      {/* Subtle grid texture */}
-      <div
-        className="pointer-events-none absolute inset-0"
-        style={{
-          backgroundImage:
-            "linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px)",
-          backgroundSize: "80px 80px",
-          maskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent)",
-          WebkitMaskImage: "radial-gradient(ellipse 60% 50% at 50% 50%, black, transparent)",
-        }}
-      />
-
-      {/* Particles */}
-      <Particles />
-
-      {/* Content */}
-      <div className="relative z-10 mx-auto max-w-[1400px] px-6 py-32 md:px-12 md:py-48">
-        {/* Two-column layout */}
-        <div className="flex flex-col gap-16 lg:flex-row lg:items-center lg:gap-20">
-          {/* ── LEFT SIDE (40%) ── */}
-          <div className="lg:w-[40%]">
-            {/* Section label */}
-            <RevealText delay={0}>
-              <p
-                className="mb-8 text-[11px] font-semibold tracking-[0.35em] uppercase"
-                style={{ color: "rgba(125,211,252,0.6)" }}
-              >
-                About
-              </p>
-            </RevealText>
-
-            {/* Heading */}
-            <RevealText delay={0.1}>
-              <h2 className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em] text-white">
-                Built Before
-              </h2>
-            </RevealText>
-            <RevealText delay={0.2}>
-              <h2
-                className="text-[clamp(2.5rem,5.5vw,4.2rem)] font-bold leading-[1.05] tracking-[-0.03em]"
-                style={{ color: "rgba(255,255,255,0.35)" }}
-              >
-                I Was Ready.
-              </h2>
-            </RevealText>
-
-            {/* Decorative line */}
-            <motion.div
-              className="mt-8 h-[1px] max-w-[120px] origin-left"
-              style={{
-                background: "linear-gradient(to right, rgba(125,211,252,0.3), transparent)",
-              }}
-              initial={{ scaleX: 0 }}
-              whileInView={{ scaleX: 1 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1.2, delay: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            />
-
-            {/* Paragraph */}
-            <RevealText delay={0.4}>
-              <p className="mt-8 max-w-sm text-[15px] font-normal leading-[1.85] text-white/60">
-                Every project taught me something no classroom could.
-                From development and design to leadership and problem solving,
-                I learned by creating, failing, improving, and building again.
-              </p>
-            </RevealText>
-
-            {/* Signature */}
-            <motion.div
-              className="mt-8 flex items-center gap-3"
-              initial={{ opacity: 0, x: -10 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 1, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            >
-              <div
-                className="h-[1px] w-6"
-                style={{ background: "rgba(255,255,255,0.15)" }}
-              />
-              <span
-                className="text-[13px] italic text-white/30"
-              >
-                Chandanpreet Kaur
-              </span>
-            </motion.div>
+    <section ref={sectionRef} id="about" className="relative overflow-hidden py-16 md:py-24" style={{ background: "#050505" }}>
+      <div className="section-divider mb-16" />
+      <div className="relative z-10 mx-auto max-w-7xl px-6 md:px-12">
+        <div className="grid items-center gap-12 lg:grid-cols-[1fr_1.2fr_0.8fr] lg:gap-16">
+          <PhotoCard />
+          <div>
+            <motion.p initial={{ opacity: 0, y: 15 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }} className="mb-4 text-[11px] font-semibold uppercase tracking-[0.3em]" style={{ color: "rgba(139,92,246,0.7)" }}>About Me</motion.p>
+            <motion.h2 initial={{ opacity: 0, y: 20 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }} className="text-[clamp(1.8rem,3.5vw,2.8rem)] font-bold leading-[1.15] text-white">
+              Designer. Thinker.<br /><span style={{ color: "rgba(255,255,255,0.4)" }}>Problem Solver.</span>
+            </motion.h2>
+            <motion.p initial={{ opacity: 0, y: 15 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }} className="mt-6 text-[15px] leading-[1.85] text-white/60">
+              I&apos;m a student designer passionate about crafting meaningful digital experiences. My work sits at the intersection of user needs, business goals and clean, intentional design.
+            </motion.p>
+            <motion.a href="#" initial={{ opacity: 0, y: 10 }} animate={isInView ? { opacity: 1, y: 0 } : {}} transition={{ duration: 0.8, delay: 0.35, ease: [0.22, 1, 0.36, 1] }} className="group mt-8 inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04]" style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}>
+              Download Resume
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5"><path d="M7 17L17 7M17 7H7M17 7v10" /></svg>
+            </motion.a>
           </div>
-
-          {/* ── RIGHT SIDE (60%) ── */}
-          <div className="relative lg:w-[60%]">
-            <ShowcaseCard />
-          </div>
-        </div>
-
-        {/* ── METRICS ROW ── */}
-        <div className="mt-24 md:mt-36">
-          <motion.div
-            className="mx-auto h-[1px] max-w-4xl origin-center"
-            style={{
-              background:
-                "linear-gradient(to right, transparent, rgba(125,211,252,0.1), rgba(255,255,255,0.06), rgba(125,211,252,0.1), transparent)",
-            }}
-            initial={{ scaleX: 0 }}
-            whileInView={{ scaleX: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1.5, ease: [0.22, 1, 0.36, 1] }}
-          />
-
-          <div className="mx-auto mt-12 grid max-w-4xl grid-cols-2 gap-3 md:mt-16 md:grid-cols-4 md:gap-4">
-            <AnimatedStat value={15} suffix="+" label="Projects Built" delay={0.1} />
-            <AnimatedStat value={8.6} label="Current CGPA" delay={0.2} isDecimal />
-            <AnimatedStat value={3} label="Intl. Offers" delay={0.3} />
-            <AnimatedStat value={100} suffix="+" label="Hours Designing" delay={0.4} />
+          <div className="space-y-6">
+            {principles.map((p, i) => (
+              <motion.div key={p.title} initial={{ opacity: 0, x: 30 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.7, delay: 0.3 + i * 0.1, ease: [0.22, 1, 0.36, 1] }} className="group flex items-start gap-4">
+                <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-xl transition-colors duration-300" style={{ color: "rgba(139,92,246,0.6)", background: "rgba(139,92,246,0.08)", border: "1px solid rgba(139,92,246,0.12)" }}>{p.icon}</div>
+                <div>
+                  <h3 className="text-sm font-semibold text-white">{p.title}</h3>
+                  <p className="mt-1 text-[13px] leading-relaxed text-white/45">{p.description}</p>
+                </div>
+              </motion.div>
+            ))}
           </div>
         </div>
       </div>
