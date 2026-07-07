@@ -7,7 +7,16 @@ import gsap from "gsap"
 const marqueeText = "UI Design • Web Development • User Experience • Digital Strategy • Problem Solving"
 
 export function Marquee() {
-  const containerRef = useRef<HTMLDivElement>(null)
+  const marquee = marqueeRef.current;
+
+if (!marquee) return;
+
+gsap.to(marquee, {
+  x: -marquee.offsetWidth / 2,
+  duration: 20,
+  ease: "none",
+  repeat: -1,
+});
 
   useEffect(() => {
     if (!containerRef.current) return
