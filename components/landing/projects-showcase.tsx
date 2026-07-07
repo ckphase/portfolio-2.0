@@ -48,9 +48,23 @@ const projects = [
     mockupTitle: "Dashboard",
     mockupSubtitle: "Total Users: 2,543 · Revenue: $32,485 · Orders: 1,246",
   },
+  {
+    id: 4,
+    num: "04",
+    title: "FemoraAI",
+    platform: "Coded",
+    platformIcon: "health",
+    category: "Health Tech",
+    description:
+      "An AI-powered women's health intelligence platform with cycle tracking, mood & energy pattern analysis, and personalized insights — built with React, TypeScript, and shadcn/ui.",
+    tags: ["React", "TypeScript", "shadcn/ui", "Health Tech", "Web App"],
+    mockupGradient: ["180,60,80", "120,40,60"],
+    mockupTitle: "FemoraAI",
+    mockupSubtitle: "Women's Intelligence OS — Know why you feel the way you do.",
+  },
 ]
 
-const categories = ["All Projects", "UI/UX Design", "Web Design", "E-commerce", "Web App"]
+const categories = ["All Projects", "UI/UX Design", "Web Design", "E-commerce", "Web App", "Health Tech"]
 
 /* ─── Platform Icon ─── */
 function PlatformIcon({ type }: { type: string }) {
@@ -82,6 +96,12 @@ function PlatformIcon({ type }: { type: string }) {
           <polyline points="16 18 22 12 16 6" />
           <polyline points="8 6 2 12 8 18" />
           <line x1="14" y1="4" x2="10" y2="20" />
+        </svg>
+      )
+    case "health":
+      return (
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" className="text-white/80">
+          <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
         </svg>
       )
     default:
@@ -160,7 +180,64 @@ function ProjectMockup({ project }: { project: (typeof projects)[0] }) {
 
       {/* Mockup content */}
       <div className="p-6 md:p-8">
-        {project.platformIcon === "code" ? (
+        {project.platformIcon === "health" ? (
+          /* FemoraAI Health Intelligence mockup */
+          <div className="space-y-4">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div
+                  className="h-7 w-7 rounded-lg flex items-center justify-center"
+                  style={{ background: "rgba(180,60,80,0.3)" }}
+                >
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="rgba(255,200,200,0.9)" strokeWidth="2">
+                    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+                  </svg>
+                </div>
+                <span className="text-sm font-bold" style={{ color: "rgba(255,180,180,0.9)" }}>Femora<span style={{ color: "rgba(255,220,200,0.9)" }}>AI</span></span>
+              </div>
+              <span className="text-[9px] uppercase tracking-wider text-white/30">Women&apos;s Intelligence OS</span>
+            </div>
+            {/* Current Phase Card */}
+            <div
+              className="rounded-xl p-3"
+              style={{ background: "rgba(180,60,80,0.15)", border: "1px solid rgba(180,60,80,0.2)" }}
+            >
+              <p className="text-[9px] uppercase tracking-wider" style={{ color: "rgba(255,180,180,0.6)" }}>Current Phase</p>
+              <p className="mt-1 text-base font-bold" style={{ color: "rgba(255,200,200,0.9)" }}>Luteal</p>
+              <p className="mt-1 text-[10px] text-white/40">Progesterone near peak. Energy dip is expected — this is your pattern.</p>
+            </div>
+            {/* Stats Row */}
+            <div className="grid grid-cols-3 gap-2">
+              {[
+                { label: "Avg energy", value: "7.2" },
+                { label: "Logged", value: "82%" },
+                { label: "Patterns", value: "3" },
+              ].map((stat) => (
+                <div
+                  key={stat.label}
+                  className="rounded-xl p-2.5 text-center"
+                  style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+                >
+                  <p className="text-sm font-bold text-white/80">{stat.value}</p>
+                  <p className="text-[8px] text-white/30 mt-0.5">{stat.label}</p>
+                </div>
+              ))}
+            </div>
+            {/* Pattern Intelligence */}
+            <div
+              className="rounded-xl p-3"
+              style={{ background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.05)" }}
+            >
+              <p className="text-[9px] uppercase tracking-wider text-white/30">Pattern Intelligence</p>
+              <p className="mt-1.5 text-[11px] italic" style={{ color: "rgba(255,180,180,0.7)" }}>Poor sleep → Low energy</p>
+              <div className="mt-2 flex items-center gap-2">
+                <span className="rounded-md px-2 py-1 text-[9px]" style={{ background: "rgba(180,60,80,0.2)", color: "rgba(255,180,180,0.7)" }}>Sleep &lt; 6h</span>
+                <span className="text-[9px] text-white/20">→</span>
+                <span className="rounded-md px-2 py-1 text-[9px]" style={{ background: "rgba(180,60,80,0.2)", color: "rgba(255,180,180,0.7)" }}>Fatigue +60%</span>
+              </div>
+            </div>
+          </div>
+        ) : project.platformIcon === "code" ? (
           /* Dashboard style for coded app */
           <div className="space-y-4">
             <div className="flex items-center gap-3">

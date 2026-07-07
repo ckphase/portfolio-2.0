@@ -81,6 +81,14 @@ const research = [
 /* ─── Featured Projects ─── */
 const featuredProjects = [
   {
+    title: "FemoraAI — Women's Health Intelligence",
+    category: "Web Development",
+    description: "An AI-powered women's health platform with cycle tracking, mood & energy pattern analysis, and personalized insights — coded with React, TypeScript, and shadcn/ui.",
+    metrics: { users: "5K+", improvement: "75%", screens: "5+" },
+    gradient: ["180,60,80", "120,40,60"],
+    tags: ["React", "TypeScript", "shadcn/ui", "Health Tech"],
+  },
+  {
     title: "HealthDash — Patient Portal Redesign",
     category: "UI/UX Design",
     description: "End-to-end redesign of a patient portal serving 50K+ users, improving task completion rate by 42%.",

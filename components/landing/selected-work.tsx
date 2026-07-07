@@ -9,6 +9,7 @@ const works = [
   { num: "01", title: "Rhythm", category: "Music App Experience", color: "139,92,246" },
   { num: "02", title: "Brewed", category: "Brand Identity & Packaging", color: "168,85,247" },
   { num: "03", title: "FinDash", category: "Finance Dashboard", color: "124,58,237" },
+  { num: "04", title: "FemoraAI", category: "AI Health Tech · React & TypeScript", color: "180,60,80" },
 ]
 
 /* ─── Project Card ─── */
