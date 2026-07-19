@@ -20,10 +20,43 @@ const projects = [
     mockupTitle: "FemoraAI",
     mockupSubtitle: "Women's Intelligence OS — Know why you feel the way you do.",
     image: "/femoraai.png",
+    url: "femoraai.com",
+  },
+  {
+    id: 2,
+    num: "02",
+    title: "NexusMagz",
+    platform: "WordPress",
+    platformIcon: "wordpress",
+    category: "WordPress",
+    description:
+      "A Gujarati digital magazine and publishing platform built on WordPress with Elementor, WooCommerce, payment integration and a modular header featuring logo, dynamic quotes, latest book highlights, share actions, and social media links.",
+    tags: ["WordPress", "Elementor", "WooCommerce", "Payment Integration", "Magazine", "Responsive"],
+    mockupGradient: ["30,90,180", "80,140,220"],
+    mockupTitle: "NexusMagz",
+    mockupSubtitle: "Gujarati digital magazine with publishing, events, PDFs, and bookstore.",
+    image: "/nexusmagz.png",
+    url: "nexusmagz.com",
+  },
+  {
+    id: 3,
+    num: "03",
+    title: "TheGlamourra",
+    platform: "WordPress",
+    platformIcon: "wordpress",
+    category: "WordPress",
+    description:
+      "A WordPress fashion ecommerce store with Elementor, WooCommerce, Razorpay payments, product variations, and a polished header experience.",
+    tags: ["WordPress", "Elementor", "WooCommerce", "Razorpay", "Fashion", "Ecommerce"],
+    mockupGradient: ["150,40,60", "220,120,120"],
+    mockupTitle: "TheGlamourra",
+    mockupSubtitle: "Authentic chikankari kurtis and ethnic wear ecommerce store.",
+    image: "/theglamourra.png",
+    url: "theglamourra.com",
   },
 ]
 
-const categories = ["All Projects", "Health Tech", "Web App"]
+const categories = ["All Projects", "Health Tech", "Web App", "WordPress"]
 
 /* ─── Platform Icon ─── */
 function PlatformIcon({ type }: { type: string }) {
@@ -123,29 +156,32 @@ function ProjectMockup({ project }: { project: (typeof projects)[0] }) {
     >
       {/* Fake browser chrome */}
       <div
-        className="flex items-center gap-2 border-b px-4 py-3"
-        style={{ borderColor: "rgba(255,255,255,0.06)" }}
+        className="absolute inset-x-0 top-0 z-10 flex h-12 items-center gap-3 border-b px-4"
+        style={{
+          background: "rgba(5, 5, 5, 0.96)",
+          borderColor: "rgba(255,255,255,0.08)",
+        }}
       >
         <div className="flex gap-1.5">
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
-          <div className="h-2.5 w-2.5 rounded-full bg-white/10" />
+          <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
+          <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
+          <div className="h-2.5 w-2.5 rounded-full bg-white/20" />
         </div>
-        <div
-          className="mx-auto h-5 w-40 rounded-md"
-          style={{ background: "rgba(255,255,255,0.04)" }}
-        />
+        <div className="mx-auto text-[0.75rem] uppercase tracking-[0.18em] text-white/60">
+          {project.url}
+        </div>
       </div>
 
       {/* Mockup content */}
-      <div className="p-6 md:p-8">
+      <div className="relative h-full">
         {project.image ? (
           /* Image display for projects with image */
-          <div className="relative w-full h-full min-h-[300px] rounded-lg overflow-hidden">
+          <div className="absolute inset-x-0 top-12 bottom-0 overflow-hidden">
             <img
               src={project.image}
               alt={project.title}
-              className="w-full h-full object-cover"
+              className="absolute inset-0 h-full w-full object-cover"
+              style={{ objectPosition: project.title === "TheGlamourra" ? "left 45%" : "center center" }}
             />
           </div>
         ) : project.platformIcon === "health" ? (

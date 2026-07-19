@@ -11,7 +11,6 @@ const ease = [0.22, 1, 0.36, 1] as const
 /* ─── Achievements ─── */
 const achievements = [
   {
-    icon: "🏆",
     title: "Design Competition Winner",
     event: "National UI Challenge 2024",
     description: "Secured 1st place among 200+ participants for designing an accessible health-tech dashboard.",
@@ -19,7 +18,6 @@ const achievements = [
     color: "234,179,8",
   },
   {
-    icon: "🎖️",
     title: "Best Student Designer",
     event: "College Annual Awards",
     description: "Recognized for outstanding contributions to design projects and mentoring junior designers.",
@@ -27,7 +25,6 @@ const achievements = [
     color: "139,92,246",
   },
   {
-    icon: "🥇",
     title: "Hackathon Finalist",
     event: "DesignHack 2023",
     description: "Built a complete fintech app prototype in 48 hours, finishing in the top 5 out of 80 teams.",
@@ -35,7 +32,6 @@ const achievements = [
     color: "236,72,153",
   },
   {
-    icon: "📜",
     title: "Google UX Certified",
     event: "Google UX Design Certificate",
     description: "Completed the full Google UX Design Professional Certificate covering the end-to-end design process.",
@@ -118,7 +114,6 @@ const featuredProjects = [
 const skillCategories = [
   {
     title: "Design",
-    icon: "✦",
     skills: [
       { name: "UI Design", level: 95 },
       { name: "UX Research", level: 90 },
@@ -131,7 +126,6 @@ const skillCategories = [
   },
   {
     title: "Tools",
-    icon: "◈",
     skills: [
       { name: "Figma", level: 95 },
       { name: "Adobe XD", level: 85 },
@@ -144,7 +138,6 @@ const skillCategories = [
   },
   {
     title: "Soft Skills",
-    icon: "◉",
     skills: [
       { name: "Communication", level: 92 },
       { name: "Team Leadership", level: 85 },
@@ -184,12 +177,12 @@ const certifications = [
 
 /* ─── Interests / Fun Facts ─── */
 const funFacts = [
-  { emoji: "🎨", text: "I sketch ideas on paper before opening Figma" },
-  { emoji: "📚", text: "I read 2+ design books every month" },
-  { emoji: "☕", text: "Powered by chai and curiosity" },
-  { emoji: "🌍", text: "Fascinated by cross-cultural design patterns" },
-  { emoji: "🎵", text: "I design better with lo-fi beats playing" },
-  { emoji: "🧩", text: "I see every problem as a design puzzle" },
+  { text: "I sketch ideas on paper before opening Figma" },
+  { text: "I read 2+ design books every month" },
+  { text: "Powered by chai and curiosity" },
+  { text: "Fascinated by cross-cultural design patterns" },
+  { text: "I design better with lo-fi beats playing" },
+  { text: "I see every problem as a design puzzle" },
 ]
 
 /* ─── Stats ─── */
@@ -275,11 +268,11 @@ function PhotoCard() {
 
 /* ─── Section Tab Navigation ─── */
 const sections = [
-  { id: "achievements", label: "Achievements", icon: "🏆" },
-  { id: "research", label: "Research", icon: "📄" },
-  { id: "projects", label: "Projects", icon: "💼" },
-  { id: "skills", label: "Skills", icon: "⚡" },
-  { id: "resume", label: "Resume", icon: "📋" },
+  { id: "achievements", label: "Achievements" },
+  { id: "research", label: "Research" },
+  { id: "projects", label: "Projects" },
+  { id: "skills", label: "Skills" },
+  { id: "resume", label: "Resume" },
 ]
 
 /* ─── Achievement Card ─── */
@@ -305,7 +298,6 @@ function AchievementCard({ item, index }: { item: (typeof achievements)[0]; inde
 
       <div className="relative z-10">
         <div className="flex items-start justify-between mb-4">
-          <span className="text-3xl">{item.icon}</span>
           <span
             className="rounded-full px-3 py-1 text-[10px] font-bold uppercase tracking-[0.15em]"
             style={{
@@ -522,17 +514,7 @@ function SkillCategory({ category, index }: { category: (typeof skillCategories)
       className="rounded-2xl border border-white/[0.06] p-6 md:p-8"
       style={{ background: "rgba(255,255,255,0.02)" }}
     >
-      <div className="flex items-center gap-3 mb-6">
-        <div
-          className="flex h-10 w-10 items-center justify-center rounded-xl text-lg"
-          style={{
-            background: `rgba(${category.color},0.08)`,
-            border: `1px solid rgba(${category.color},0.12)`,
-            color: `rgba(${category.color},0.8)`,
-          }}
-        >
-          {category.icon}
-        </div>
+      <div className="mb-6">
         <h3 className="text-lg font-bold text-white">{category.title}</h3>
       </div>
 
@@ -735,10 +717,9 @@ export function AboutPage() {
           {[...funFacts, ...funFacts].map((fact, i) => (
             <div
               key={i}
-              className="flex items-center gap-3 rounded-full border border-white/[0.06] px-5 py-2.5 shrink-0"
+              className="rounded-full border border-white/[0.06] px-5 py-2.5 shrink-0"
               style={{ background: "rgba(255,255,255,0.02)" }}
             >
-              <span className="text-lg">{fact.emoji}</span>
               <span className="text-[12px] text-white/50 whitespace-nowrap">{fact.text}</span>
             </div>
           ))}
@@ -769,7 +750,6 @@ export function AboutPage() {
                   border: activeTab === sec.id ? "1px solid rgba(139,92,246,0.2)" : "1px solid transparent",
                 }}
               >
-                <span className="text-sm">{sec.icon}</span>
                 <span className="hidden sm:inline">{sec.label}</span>
               </button>
             ))}

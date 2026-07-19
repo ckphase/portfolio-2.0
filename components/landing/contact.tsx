@@ -114,7 +114,7 @@ export function Contact() {
             {/* Center - Info + CTA */}
             <div className="space-y-6">
               <motion.a
-                href="mailto:chandanpreet.design@gmail.com"
+                href="mailto:chandanpreetkaur1317@gmail.com"
                 initial={{ opacity: 0, y: 10 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
                 transition={{ duration: 0.8, delay: 0.3, ease: [0.22, 1, 0.36, 1] }}
@@ -135,7 +135,7 @@ export function Contact() {
               >
                 <div className="flex items-center gap-3">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(139,92,246,0.6)" strokeWidth="1.5"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="M22 7l-10 7L2 7" /></svg>
-                  <span className="text-sm text-white/60">chandanpreet.design@gmail.com</span>
+                  <span className="text-sm text-white/60">chandanpreetkaur1317@gmail.com</span>
                 </div>
                 <div className="flex items-center gap-3">
                   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="rgba(139,92,246,0.6)" strokeWidth="1.5"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z" /><circle cx="12" cy="10" r="3" /></svg>

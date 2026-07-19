@@ -9,28 +9,24 @@ const processSteps = [
     title: "Research & Discovery",
     description:
       "I dive deep into understanding your goals, target audience, and market dynamics. This foundation guides every design decision.",
-    icon: "🔍",
   },
   {
     number: "02",
     title: "Strategy & Planning",
     description:
       "Crafting a strategic roadmap with wireframes, user flows, and information architecture. Clear planning prevents costly revisions.",
-    icon: "📋",
   },
   {
     number: "03",
     title: "Design & Iteration",
     description:
       "Creating beautiful, functional designs with multiple iterations. Feedback loops ensure the final product exceeds expectations.",
-    icon: "🎨",
   },
   {
     number: "04",
     title: "Delivery & Support",
     description:
       "Polished deliverables with handoff documentation. I stay engaged through launch and beyond for continuous optimization.",
-    icon: "🚀",
   },
 ]
 
@@ -119,9 +115,6 @@ export function Process() {
                    style={{ color: "rgba(139,92,246,0.4)" }}>
                 {step.number}
               </div>
-
-              {/* Icon */}
-              <div className="mb-4 text-3xl">{step.icon}</div>
 
               {/* Title */}
               <h3 className="mb-3 text-lg font-normal leading-[1.3] tracking-[-0.01em] text-white">
