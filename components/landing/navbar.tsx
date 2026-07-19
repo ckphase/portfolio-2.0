@@ -4,20 +4,28 @@ import { useRef, useEffect, useState } from "react"
 import { motion, useScroll, useMotionValueEvent } from "framer-motion"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { LanguageToggle } from "@/components/language-toggle"
+import { useLanguage } from "@/lib/language-context"
 
 const navLinks = [
-  { label: "About", href: "/about" },
-  { label: "Projects", href: "/projects" },
-  { label: "Experience", href: "/experience" },
-  { label: "Contact", href: "/#contact" },
+  { labelKey: "about", href: "/about" },
+  { labelKey: "projects", href: "/projects" },
+  { labelKey: "experience", href: "/experience" },
+  { labelKey: "contact", href: "/#contact" },
 ]
 
 export function Navbar() {
+  const { t } = useLanguage()
   const pathname = usePathname()
   const [hidden, setHidden] = useState(false)
   const [scrolled, setScrolled] = useState(false)
+  const [mounted, setMounted] = useState(false)
   const { scrollY } = useScroll()
   const lastY = useRef(0)
+
+  useEffect(() => {
+    setMounted(true)
+  }, [])
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     // Hide on scroll down, show on scroll up
@@ -80,14 +88,14 @@ export function Navbar() {
               const active = isActive(link.href)
               return (
                 <Link
-                  key={link.label}
+                  key={link.labelKey}
                   href={link.href}
                   className="relative px-4 py-2 text-[12px] font-semibold uppercase tracking-[0.15em] transition-colors duration-300"
                   style={{
                     color: active ? "rgba(255,255,255,0.95)" : "rgba(255,255,255,0.5)",
                   }}
                 >
-                  {link.label}
+                  {t(link.labelKey)}
                   {/* Active underline dot */}
                   {active && (
                     <motion.div
@@ -102,13 +110,16 @@ export function Navbar() {
             })}
           </div>
 
-          {/* Right — Portfolio Year */}
-          <p
-            className="hidden md:block text-[11px] font-medium tracking-[0.2em] uppercase"
-            style={{ color: "rgba(255,255,255,0.35)" }}
-          >
-            Portfolio 2026
-          </p>
+          {/* Right — Language Toggle + Portfolio Year */}
+          <div className="flex items-center gap-4">
+            {mounted && <LanguageToggle />}
+            <p
+              className="hidden md:block text-[11px] font-medium tracking-[0.2em] uppercase"
+              style={{ color: "rgba(255,255,255,0.35)" }}
+            >
+              {t("portfolio")}
+            </p>
+          </div>
 
           {/* Mobile menu button */}
           <button

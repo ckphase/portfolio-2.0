@@ -5,6 +5,7 @@ import "./globals.css"
 import { LenisProvider } from "@/components/landing/lenis-provider"
 import { BgMusicPlayer } from "@/components/bg-music-player"
 import { Navbar } from "@/components/landing/navbar"
+import { LanguageProvider } from "@/lib/language-context"
 
 const inter = Inter({
   subsets: ["latin"],
@@ -49,9 +50,11 @@ export default function RootLayout({
         className="grain bg-[#050505] font-sans text-white"
         style={{ fontFamily: "var(--font-sans), system-ui, sans-serif" }}
       >
-        <BgMusicPlayer />
-        <Navbar />
-        <LenisProvider>{children}</LenisProvider>
+        <LanguageProvider>
+          <BgMusicPlayer />
+          <Navbar />
+          <LenisProvider>{children}</LenisProvider>
+        </LanguageProvider>
       </body>
     </html>
   )

@@ -7,6 +7,8 @@ import gsap from "gsap"
 /* ─── Data ─── */
 const works = [
   { num: "01", title: "FemoraAI", category: "AI Health Tech · React & TypeScript", color: "180,60,80", image: "/femoraai.png" },
+  { num: "02", title: "TheGlamourra", category: "Fashion & Lifestyle · React & TypeScript", color: "200,120,100", image: "/theglamourra.png" },
+  { num: "03", title: "NexusMagz", category: "Digital Magazine · React & TypeScript", color: "100,150,200", image: "/nexusmagz.png" },
 ]
 
 /* ─── Project Card ─── */

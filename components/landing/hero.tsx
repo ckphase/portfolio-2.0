@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState, useCallback } from "react"
 import { motion, useAnimation, useInView } from "framer-motion"
 import gsap from "gsap"
+import { useLanguage } from "@/lib/language-context"
 
 /* ─── Concentric Circles Background ─── */
 function ConcentricCircles() {
@@ -179,15 +180,16 @@ const bottomReveal = {
 }
 
 /* ─── Stats Data ─── */
-const stats = [
-  { value: 25, suffix: "+", label: "Projects Delivered" },
-  { value: 10, suffix: "+", label: "Shopify Stores" },
-  { value: 8, suffix: "+", label: "WordPress Sites" },
-  { value: 15, suffix: "+", label: "Coded Websites" },
+const statsKeys = [
+  { value: 25, suffix: "+", labelKey: "projectsDelivered" },
+  { value: 10, suffix: "+", labelKey: "shopifyStores" },
+  { value: 8, suffix: "+", labelKey: "wordpressSites" },
+  { value: 15, suffix: "+", labelKey: "codedWebsites" },
 ]
 
 /* ─── Hero Component ─── */
 export function Hero() {
+  const { t } = useLanguage()
   const parallaxRef = useParallax()
   const controls = useAnimation()
   const heroRef = useRef<HTMLDivElement>(null)
@@ -241,7 +243,7 @@ export function Hero() {
             className="mb-8 text-[11px] font-medium tracking-[0.35em] uppercase"
             style={{ color: "rgba(139,92,246,0.7)" }}
           >
-            Portfolio 2026
+            {t("portfolio")}
           </motion.p>
         </div>
 
@@ -253,7 +255,7 @@ export function Hero() {
               variants={lineReveal}
               className="text-[clamp(2.2rem,6.5vw,5.5rem)] font-normal leading-[1.05] tracking-[-0.03em] text-white"
             >
-              UI/UX &amp; Digital Experiences
+              {t("uiuxDev")}
             </motion.h1>
           </div>
 
@@ -264,7 +266,7 @@ export function Hero() {
               className="mt-1 text-[clamp(2rem,6vw,5rem)] font-normal italic leading-[1.1] tracking-[-0.02em]"
               style={{ color: "rgba(139,92,246,0.6)" }}
             >
-              Chandanpreet Kaur
+              {t("name")}
             </motion.h2>
           </div>
         </div>
@@ -278,7 +280,7 @@ export function Hero() {
               className="text-[clamp(0.9rem,1.3vw,1.1rem)] font-normal leading-[1.8] tracking-[0.01em]"
               style={{ color: "rgba(255,255,255,0.7)" }}
             >
-              Design isn&apos;t decoration.
+              {t("designStatement1")}
             </motion.p>
           </div>
           <div className="overflow-hidden">
@@ -288,7 +290,7 @@ export function Hero() {
               className="text-[clamp(0.9rem,1.3vw,1.1rem)] font-normal leading-[1.8] tracking-[0.01em]"
               style={{ color: "rgba(255,255,255,0.7)" }}
             >
-              It&apos;s how people remember an experience.
+              {t("designStatement2")}
             </motion.p>
           </div>
         </div>
@@ -297,9 +299,9 @@ export function Hero() {
         <motion.div
           className="mt-16 flex flex-wrap items-center justify-center gap-3 md:gap-4"
         >
-          {stats.map((stat, i) => (
+          {statsKeys.map((stat, i) => (
             <motion.div
-              key={stat.label}
+              key={stat.labelKey}
               custom={i}
               variants={statReveal}
               className="group relative flex items-center gap-3 rounded-full border px-5 py-2.5 md:px-7 md:py-3 transition-colors duration-500 hover:border-white/[0.12]"
@@ -320,7 +322,7 @@ export function Hero() {
                 className="text-[11px] font-normal uppercase tracking-[0.12em] md:text-xs"
                 style={{ color: "rgba(255,255,255,0.65)" }}
               >
-                {stat.label}
+                {t(stat.labelKey)}
               </span>
             </motion.div>
           ))}
@@ -348,7 +350,7 @@ export function Hero() {
               className="text-[11px] font-light tracking-[0.1em] uppercase"
               style={{ color: "rgba(255,255,255,0.6)" }}
             >
-              Available for Opportunities
+              {t("availableOpportunities")}
             </span>
           </motion.div>
 
@@ -367,7 +369,7 @@ export function Hero() {
               }}
             >
               <span className="text-[11px] font-light tracking-[0.15em] uppercase">
-                Jump to About
+                {t("jumpToAbout")}
               </span>
               <div className="scroll-indicator flex flex-col items-center">
                 <div
