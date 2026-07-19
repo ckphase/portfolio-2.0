@@ -2,35 +2,33 @@
 
 import { motion, useInView, type Variants } from "framer-motion"
 import { useRef } from "react"
+import { useLanguage } from "@/lib/language-context"
 
 const processSteps = [
   {
     number: "01",
-    title: "Research & Discovery",
-    description:
-      "I dive deep into understanding your goals, target audience, and market dynamics. This foundation guides every design decision.",
+    titleKey: "researchDiscovery",
+    descriptionKey: "researchDescription",
   },
   {
     number: "02",
-    title: "Strategy & Planning",
-    description:
-      "Crafting a strategic roadmap with wireframes, user flows, and information architecture. Clear planning prevents costly revisions.",
+    titleKey: "strategyPlanning",
+    descriptionKey: "strategyDescription",
   },
   {
     number: "03",
-    title: "Design & Iteration",
-    description:
-      "Creating beautiful, functional designs with multiple iterations. Feedback loops ensure the final product exceeds expectations.",
+    titleKey: "designIteration",
+    descriptionKey: "designDescription",
   },
   {
     number: "04",
-    title: "Delivery & Support",
-    description:
-      "Polished deliverables with handoff documentation. I stay engaged through launch and beyond for continuous optimization.",
+    titleKey: "deliverySupport",
+    descriptionKey: "deliveryDescription",
   },
 ]
 
 export function Process() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLDivElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
@@ -79,14 +77,14 @@ export function Process() {
             variants={itemVariants}
             className="text-[clamp(2rem,4.5vw,3.5rem)] font-normal leading-[1.1] tracking-[-0.02em] text-white"
           >
-            How I Work
+            {t("howIWork")}
           </motion.h2>
           <motion.p
             variants={itemVariants}
             className="mt-4 text-[clamp(0.95rem,1.2vw,1.1rem)] font-normal leading-[1.7] tracking-[0.01em]"
             style={{ color: "rgba(255,255,255,0.65)" }}
           >
-            My design process is collaborative, iterative, and focused on delivering results that matter.
+            {t("howIWorkDescription")}
           </motion.p>
         </div>
 
@@ -118,7 +116,7 @@ export function Process() {
 
               {/* Title */}
               <h3 className="mb-3 text-lg font-normal leading-[1.3] tracking-[-0.01em] text-white">
-                {step.title}
+                {t(step.titleKey)}
               </h3>
 
               {/* Description */}
@@ -126,7 +124,7 @@ export function Process() {
                 className="text-sm font-normal leading-[1.6] tracking-[0.005em]"
                 style={{ color: "rgba(255,255,255,0.6)" }}
               >
-                {step.description}
+                {t(step.descriptionKey)}
               </p>
 
               {/* Accent line on hover */}
