@@ -9,48 +9,6 @@ const projects = [
   {
     id: 1,
     num: "01",
-    title: "Business Website",
-    platform: "WordPress",
-    platformIcon: "wordpress",
-    category: "Web Design",
-    description:
-      "A clean, conversion-focused website built on WordPress with custom design, responsive layout, and optimized performance.",
-    tags: ["UI/UX Design", "WordPress", "Responsive", "SEO"],
-    mockupGradient: ["139,92,246", "99,102,241"],
-    mockupTitle: "We build digital experiences that drive results",
-    mockupSubtitle: "Helping brands grow with strategy, design and technology.",
-  },
-  {
-    id: 2,
-    num: "02",
-    title: "E-commerce Store",
-    platform: "Shopify",
-    platformIcon: "shopify",
-    category: "E-commerce",
-    description:
-      "A modern Shopify store with a seamless shopping experience, product filters, and secure checkout flow.",
-    tags: ["UI/UX Design", "Shopify", "E-commerce", "Optimization"],
-    mockupGradient: ["168,85,247", "124,58,237"],
-    mockupTitle: "New Arrivals",
-    mockupSubtitle: "Discover our latest collection with timeless luxury and premium materials.",
-  },
-  {
-    id: 3,
-    num: "03",
-    title: "Custom Web App",
-    platform: "Coded",
-    platformIcon: "code",
-    category: "Web App",
-    description:
-      "A fully custom-coded web application with a powerful admin panel, user authentication, and real-time functionality.",
-    tags: ["UI/UX Design", "Full Stack", "Web App", "API Integration"],
-    mockupGradient: ["59,130,246", "99,102,241"],
-    mockupTitle: "Dashboard",
-    mockupSubtitle: "Total Users: 2,543 · Revenue: $32,485 · Orders: 1,246",
-  },
-  {
-    id: 4,
-    num: "04",
     title: "FemoraAI",
     platform: "Coded",
     platformIcon: "health",
@@ -61,10 +19,11 @@ const projects = [
     mockupGradient: ["180,60,80", "120,40,60"],
     mockupTitle: "FemoraAI",
     mockupSubtitle: "Women's Intelligence OS — Know why you feel the way you do.",
+    image: "/femoraai.png",
   },
 ]
 
-const categories = ["All Projects", "UI/UX Design", "Web Design", "E-commerce", "Web App", "Health Tech"]
+const categories = ["All Projects", "Health Tech", "Web App"]
 
 /* ─── Platform Icon ─── */
 function PlatformIcon({ type }: { type: string }) {
@@ -180,7 +139,16 @@ function ProjectMockup({ project }: { project: (typeof projects)[0] }) {
 
       {/* Mockup content */}
       <div className="p-6 md:p-8">
-        {project.platformIcon === "health" ? (
+        {project.image ? (
+          /* Image display for projects with image */
+          <div className="relative w-full h-full min-h-[300px] rounded-lg overflow-hidden">
+            <img
+              src={project.image}
+              alt={project.title}
+              className="w-full h-full object-cover"
+            />
+          </div>
+        ) : project.platformIcon === "health" ? (
           /* FemoraAI Health Intelligence mockup */
           <div className="space-y-4">
             <div className="flex items-center justify-between">

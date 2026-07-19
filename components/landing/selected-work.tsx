@@ -6,10 +6,7 @@ import gsap from "gsap"
 
 /* ─── Data ─── */
 const works = [
-  { num: "01", title: "Rhythm", category: "Music App Experience", color: "139,92,246" },
-  { num: "02", title: "Brewed", category: "Brand Identity & Packaging", color: "168,85,247" },
-  { num: "03", title: "FinDash", category: "Finance Dashboard", color: "124,58,237" },
-  { num: "04", title: "FemoraAI", category: "AI Health Tech · React & TypeScript", color: "180,60,80" },
+  { num: "01", title: "FemoraAI", category: "AI Health Tech · React & TypeScript", color: "180,60,80", image: "/femoraai.png" },
 ]
 
 /* ─── Project Card ─── */
@@ -87,16 +84,25 @@ function ProjectCard({ work, index }: { work: (typeof works)[0]; index: number }
             {work.num}
           </div>
 
-          {/* Placeholder content */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div
-              className="h-32 w-48 rounded-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"
-              style={{
-                background: `linear-gradient(135deg, rgba(${work.color},0.3), rgba(${work.color},0.1))`,
-                boxShadow: `0 0 60px rgba(${work.color},0.15)`,
-              }}
+          {/* Image content */}
+          {work.image ? (
+            <img
+              src={work.image}
+              alt={work.title}
+              className="w-full h-full object-cover"
             />
-          </div>
+          ) : (
+            /* Placeholder content */
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div
+                className="h-32 w-48 rounded-xl opacity-40 group-hover:opacity-60 transition-opacity duration-500"
+                style={{
+                  background: `linear-gradient(135deg, rgba(${work.color},0.3), rgba(${work.color},0.1))`,
+                  boxShadow: `0 0 60px rgba(${work.color},0.15)`,
+                }}
+              />
+            </div>
+          )}
 
           {/* Arrow icon */}
           <motion.div

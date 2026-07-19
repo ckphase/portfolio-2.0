@@ -5,19 +5,19 @@ import { motion, useInView } from "framer-motion"
 
 const testimonials = [
   {
-    quote: "Chandanpreet has a sharp eye for detail and a strong sense of user empathy. Her designs are clean, thoughtful and effective.",
-    author: "Amanpreet Singh",
-    role: "Product Designer",
+    quote: "An exceptional combination of creativity, attention to detail, and user-centered thinking. Every project is approached with professionalism, resulting in clean, intuitive, and impactful digital experiences.",
+    author: "Nirali Gandhi",
+    role: "CEO, Digital Ruh",
   },
   {
-    quote: "It was great working with her. She's curious, takes initiative and delivers high quality work.",
-    author: "Gurleen Kaur",
-    role: "Design Lead",
+    quote: "Demonstrates a strong blend of technical expertise and design intuition. Quick to learn, collaborative by nature, and committed to building solutions that are both functional and visually refined.",
+    author: "Amulya Poonala",
+    role: "CTO, FemoraAI",
   },
   {
-    quote: "A very dedicated and talented designer with a passion for solving real problems through design.",
-    author: "Harpreet Singh",
-    role: "Founder, Brewed",
+    quote: "Brings curiosity, reliability, and a thoughtful approach to every challenge. A strong eye for design, combined with a passion for creating meaningful user experiences, makes every contribution valuable.",
+    author: "Tina Min",
+    role: "Founder, SDG Impact Denmark",
   },
 ]
 
