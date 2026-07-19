@@ -3,16 +3,17 @@
 import { useRef, useCallback } from "react"
 import { motion, useInView } from "framer-motion"
 import gsap from "gsap"
+import { useLanguage } from "@/lib/language-context"
 
 /* ─── Data ─── */
 const works = [
-  { num: "01", title: "FemoraAI", category: "AI Health Tech · React & TypeScript", color: "180,60,80", image: "/femoraai.png" },
-  { num: "02", title: "TheGlamourra", category: "Fashion & Lifestyle · React & TypeScript", color: "200,120,100", image: "/theglamourra.png" },
-  { num: "03", title: "NexusMagz", category: "Digital Magazine · React & TypeScript", color: "100,150,200", image: "/nexusmagz.png" },
+  { num: "01", title: "FemoraAI", categoryKey: "aiHealthTech", color: "180,60,80", image: "/femoraai.png" },
+  { num: "02", title: "TheGlamourra", categoryKey: "fashionLifestyle", color: "200,120,100", image: "/theglamourra.png" },
+  { num: "03", title: "NexusMagz", categoryKey: "digitalMagazine", color: "100,150,200", image: "/nexusmagz.png" },
 ]
 
 /* ─── Project Card ─── */
-function ProjectCard({ work, index }: { work: (typeof works)[0]; index: number }) {
+function ProjectCard({ work, index, t }: { work: (typeof works)[0]; index: number; t: (key: string) => string }) {
   const cardRef = useRef<HTMLDivElement>(null)
   const glowRef = useRef<HTMLDivElement>(null)
   const ref = useRef<HTMLDivElement>(null)
@@ -135,7 +136,7 @@ function ProjectCard({ work, index }: { work: (typeof works)[0]; index: number }
             <h3 className="text-lg font-semibold text-white group-hover:text-white/90 transition-colors">
               {work.title}
             </h3>
-            <p className="mt-1 text-sm text-white/50">{work.category}</p>
+            <p className="mt-1 text-sm text-white/50">{t(work.categoryKey)} · React & TypeScript</p>
           </div>
         </div>
       </div>
@@ -145,6 +146,7 @@ function ProjectCard({ work, index }: { work: (typeof works)[0]; index: number }
 
 /* ─── Selected Work Section ─── */
 export function SelectedWork() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
 
@@ -182,7 +184,7 @@ export function SelectedWork() {
               className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em]"
               style={{ color: "rgba(139,92,246,0.7)" }}
             >
-              Work
+              {t("work")}
             </motion.p>
 
             <motion.h2
@@ -191,7 +193,7 @@ export function SelectedWork() {
               transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
               className="text-4xl font-bold text-white md:text-5xl"
             >
-              Selected Work
+              {t("selectedWork")}
             </motion.h2>
 
             <motion.p
@@ -200,7 +202,7 @@ export function SelectedWork() {
               transition={{ duration: 0.8, delay: 0.25, ease: [0.22, 1, 0.36, 1] }}
               className="mt-5 max-w-xs text-[15px] leading-relaxed text-white/55"
             >
-              A selection of projects that blend research, strategy and visual design to solve real user problems.
+              {t("selectedWorkDescription")}
             </motion.p>
 
             <motion.a
@@ -211,7 +213,7 @@ export function SelectedWork() {
               className="group mt-8 inline-flex items-center gap-2 rounded-full border px-6 py-2.5 text-[12px] font-semibold uppercase tracking-[0.15em] transition-all duration-300 hover:border-white/20 hover:bg-white/[0.04]"
               style={{ borderColor: "rgba(255,255,255,0.1)", color: "rgba(255,255,255,0.7)" }}
             >
-              View All Projects
+              {t("viewAllProjects")}
               <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5">
                 <path d="M7 17L17 7M17 7H7M17 7v10" />
               </svg>
@@ -221,7 +223,7 @@ export function SelectedWork() {
           {/* Right - Cards */}
           <div className="grid gap-6 sm:grid-cols-3">
             {works.map((work, i) => (
-              <ProjectCard key={work.num} work={work} index={i} />
+              <ProjectCard key={work.num} work={work} index={i} t={t} />
             ))}
           </div>
         </div>
