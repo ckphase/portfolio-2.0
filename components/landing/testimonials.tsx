@@ -2,26 +2,28 @@
 
 import { useRef, useState } from "react"
 import { motion, useInView } from "framer-motion"
+import { useLanguage } from "@/lib/language-context"
 
 const testimonials = [
   {
-    quote: "An exceptional combination of creativity, attention to detail, and user-centered thinking. Every project is approached with professionalism, resulting in clean, intuitive, and impactful digital experiences.",
-    author: "Nirali Gandhi",
-    role: "CEO, Digital Ruh",
+    quoteKey: "testimonial1Text",
+    authorKey: "testimonial1Author",
+    roleKey: "testimonial1Title",
   },
   {
-    quote: "Demonstrates a strong blend of technical expertise and design intuition. Quick to learn, collaborative by nature, and committed to building solutions that are both functional and visually refined.",
-    author: "Amulya Poonala",
-    role: "CTO, FemoraAI",
+    quoteKey: "testimonial2Text",
+    authorKey: "testimonial2Author",
+    roleKey: "testimonial2Title",
   },
   {
-    quote: "Brings curiosity, reliability, and a thoughtful approach to every challenge. A strong eye for design, combined with a passion for creating meaningful user experiences, makes every contribution valuable.",
-    author: "Tina Min",
-    role: "Founder, SDG Impact Denmark",
+    quoteKey: "testimonial3Text",
+    authorKey: "testimonial3Author",
+    roleKey: "testimonial3Title",
   },
 ]
 
 export function Testimonials() {
+  const { t } = useLanguage()
   const sectionRef = useRef<HTMLElement>(null)
   const isInView = useInView(sectionRef, { once: true, margin: "-100px" })
   const [active, setActive] = useState(0)
@@ -49,7 +51,7 @@ export function Testimonials() {
           className="mb-5 text-[11px] font-semibold uppercase tracking-[0.3em]"
           style={{ color: "rgba(139,92,246,0.7)" }}
         >
-          Kind Words
+          {t("kindWords")}
         </motion.p>
 
         <motion.h2
@@ -58,12 +60,12 @@ export function Testimonials() {
           transition={{ duration: 0.9, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="mb-10 text-4xl font-bold text-white md:text-5xl"
         >
-          What People Say
+          {t("whatPeopleSay")}
         </motion.h2>
 
         {/* Cards */}
         <div className="grid gap-6 md:grid-cols-3">
-          {testimonials.map((t, i) => (
+          {testimonials.map((testimonial, i) => (
             <motion.div
               key={i}
               initial={{ opacity: 0, y: 30 }}
@@ -93,12 +95,12 @@ export function Testimonials() {
               </div>
 
               <p className="mb-8 text-[15px] leading-[1.85] text-white/75">
-                &ldquo;{t.quote}&rdquo;
+                &ldquo;{t(testimonial.quoteKey)}&rdquo;
               </p>
 
               <div>
-                <p className="text-sm font-semibold text-white">{t.author}</p>
-                <p className="mt-1 text-[13px] text-white/40">{t.role}</p>
+                <p className="text-sm font-semibold text-white">{t(testimonial.authorKey)}</p>
+                <p className="mt-1 text-[13px] text-white/40">{t(testimonial.roleKey)}</p>
               </div>
 
               {/* Active indicator */}

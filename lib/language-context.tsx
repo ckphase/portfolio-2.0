@@ -77,6 +77,27 @@ export const translations = {
     en: "Polished deliverables with handoff documentation. I stay engaged through launch and beyond for continuous optimization.",
     ja: "完成した成果物と必要なドキュメントを提供し、公開後も継続的な改善とサポートを行います。長期的な価値を生み出せるよう伴走します。",
   },
+  // Testimonials Section
+  kindWords: { en: "Kind Words", ja: "推薦の言葉" },
+  whatPeopleSay: { en: "What People Say", ja: "クライアント・パートナーからの評価" },
+  testimonial1Text: {
+    en: "An exceptional combination of creativity, attention to detail, and user-centered thinking. Every project is approached with professionalism, resulting in clean, intuitive, and impactful digital experiences.",
+    ja: "創造性、細部へのこだわり、そしてユーザー中心の思考を高いレベルで兼ね備えています。すべてのプロジェクトにプロフェッショナルな姿勢で取り組み、洗練され、直感的で価値あるデジタル体験を生み出しています。",
+  },
+  testimonial1Author: { en: "Nirali Gandhi", ja: "Nirali Gandhi" },
+  testimonial1Title: { en: "CEO, Digital Ruh", ja: "CEO, Digital Ruh" },
+  testimonial2Text: {
+    en: "Demonstrates a strong blend of technical expertise and design intuition. Quick to learn, collaborative by nature, and committed to building solutions that are both functional and visually refined.",
+    ja: "優れた技術力とデザインセンスを兼ね備えています。学習能力が高く、協調性にも優れ、機能性と美しさを両立したソリューションの開発に真摯に取り組んでいます。",
+  },
+  testimonial2Author: { en: "Amulya Poonala", ja: "Amulya Poonala" },
+  testimonial2Title: { en: "CTO, FemoraAI", ja: "CTO, FemoraAI" },
+  testimonial3Text: {
+    en: "Brings curiosity, reliability, and a thoughtful approach to every challenge. A strong eye for design, combined with a passion for creating meaningful user experiences, makes every contribution valuable.",
+    ja: "常に好奇心と責任感を持ち、一つひとつの課題に誠実に向き合っています。優れたデザイン感覚と、意味のあるユーザー体験を生み出したいという情熱が、あらゆるプロジェクトで大きな価値をもたらしています。",
+  },
+  testimonial3Author: { en: "Tina Min", ja: "Tina Min" },
+  testimonial3Title: { en: "Founder, SDG Impact Denmark", ja: "Founder, SDG Impact Denmark" },
   // Language toggle
   japanese: { en: "日本語", ja: "Japanese" },
   english: { en: "English", ja: "英語" },
