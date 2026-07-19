@@ -1,6 +1,5 @@
 "use client"
 
-import { motion } from "framer-motion"
 import { useEffect, useRef } from "react"
 import gsap from "gsap"
 
@@ -12,7 +11,7 @@ export function Marquee() {
   useEffect(() => {
     if (!containerRef.current) return
 
-    const marquee = containerRef.current.querySelector(".marquee-content")
+    const marquee = containerRef.current.querySelector<HTMLElement>(".marquee-content")
     if (!marquee) return
 
     // Create infinite scroll animation
@@ -22,7 +21,7 @@ export function Marquee() {
       ease: "none",
       repeat: -1,
       modifiers: {
-        x: gsap.utils.unitize((x: number) => parseFloat(x) % (marquee.offsetWidth / 2)),
+        x: gsap.utils.unitize((x: string) => parseFloat(x) % (marquee.offsetWidth / 2)),
       },
     })
 

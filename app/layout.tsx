@@ -1,5 +1,5 @@
 import { Inter } from "next/font/google"
-import type { Metadata } from "next"
+import type { Metadata, Viewport } from "next"
 
 import "./globals.css"
 import { LenisProvider } from "@/components/landing/lenis-provider"
@@ -16,6 +16,9 @@ export const metadata: Metadata = {
   title: "Chandanpreet Kaur — UI/UX & Digital Experiences",
   description:
     "Portfolio of Chandanpreet Kaur — UI/UX Designer creating premium digital experiences.",
+}
+
+export const viewport: Viewport = {
   themeColor: "#050505",
 }
 
