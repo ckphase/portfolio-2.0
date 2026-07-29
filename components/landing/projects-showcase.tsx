@@ -54,6 +54,22 @@ const projects = [
     image: "/theglamourra.png",
     url: "theglamourra.com",
   },
+  {
+    id: 4,
+    num: "04",
+    title: "MedMatrix Global",
+    platform: "WordPress",
+    platformIcon: "wordpress",
+    category: "WordPress",
+    description:
+      "A comprehensive NEET counselling platform with personalized dashboards for different medical packages (MBBS, AIIMS, BDS, Govt Seat, Abroad, Private College). Features college comparisons, cutoff trend analysis, and strategic guidance tailored to each student's journey.",
+    tags: ["WordPress", "Dashboard", "Health Tech", "Education", "Medical Counselling", "Responsive"],
+    mockupGradient: ["30,100,180", "80,140,220"],
+    mockupTitle: "MedMatrix Global",
+    mockupSubtitle: "Discover Every Path In Medicine — Multiple package dashboards for NEET guidance.",
+    image: "/medmatrix.png",
+    url: "medmatrixglobal.com",
+  },
 ]
 
 const categories = ["All Projects", "Health Tech", "Web App", "WordPress"]
